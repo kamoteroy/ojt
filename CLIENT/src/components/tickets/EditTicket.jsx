@@ -460,6 +460,8 @@ const EditTicket = () => {
           />
         </div>
       </form>
+      <AttachmentTable ticketId={ticketid} />
+      <TicketLineTable ticketId={ticketid} />
     </div>
   );
 };

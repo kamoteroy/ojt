@@ -323,7 +323,7 @@ const EditClient = () => {
             <Button
               color="primary"
               onClick={() => setIsModalOpen(true)}
-              isDisabled={!canEdit}
+              isDisabled={!canEdit || !isEditable}
             >
               Save Changes
             </Button>

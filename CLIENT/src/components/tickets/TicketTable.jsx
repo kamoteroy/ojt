@@ -476,28 +476,19 @@ const TicketTable = () => {
                 <ReviewIcon />
               </Button>
             </Tooltip> */}
-            <Tooltip content="Edit Ticket">
-              <Button
-                size="sm"
-                variant="flat"
-                color="secondary"
-                className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
-                onClick={() => navigate(`/tickets/editticket/${tickets.Id[0]}`)}
-              >
-                <EditIcon />
-              </Button>
-            </Tooltip>
-            {/* <Tooltip color="danger" content="Delete Ticket">
-              <Button
-                size="sm"
-                variant="flat"
-                color="warning"
-                className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
-                onClick={() => handleDeleteTicket(tickets.Id[0])}
-              >
-                <DeleteIcon />
-              </Button>
-            </Tooltip> */}
+            {
+              <Tooltip color="danger" content="Delete Ticket">
+                <Button
+                  size="sm"
+                  variant="flat"
+                  color="warning"
+                  className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
+                  onClick={() => handleDeleteTicket(tickets.Id[0])}
+                >
+                  <DeleteIcon />
+                </Button>
+              </Tooltip>
+            }
             {/* <div onClick={handlePrint}>
               <Tooltip content="Print">
                 <Button
@@ -807,7 +798,7 @@ const TicketTable = () => {
                 canView ? "cursor-pointer" : "cursor-not-allowed"
               }`}
               onClick={() =>
-                canView && navigate(`/tickets/ticketdetails/${item.Id[0]}`)
+                canView && navigate(`/tickets/editticket/${item.Id[0]}`)
               }
             >
               {headerColumns.map((column) => (
