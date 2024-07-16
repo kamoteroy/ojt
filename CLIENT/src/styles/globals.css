@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  body {
+    @apply innosoft-light text-foreground bg-background min-h-screen;
+  }
+  header {
+    @apply max-w-full !important;
+  }
+}
+/* Hide the arrow up and down input type=number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.border-red {
+  border: 1px solid red !important;
+}
+.text-note {
+  border: var(--primary);
+  background: #ddd9b2;
+}
+.w-60 {
+  width: 60% !important;
+}
+.w-70 {
+  width: 70% !important;
+}
+.justify-item-end {
+  justify-items: end !important;
+}
