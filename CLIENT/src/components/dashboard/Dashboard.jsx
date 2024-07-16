@@ -6,6 +6,7 @@ import MyTicketReport from "./MyTicketReport";
 import { Divider } from "@nextui-org/react";
 import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
+import { useSelector } from "react-redux";
 
 /****************************************************************
  * STATUS               : Pending(layout only)
@@ -15,6 +16,9 @@ import MyCustomerReport from "./MyCustomerReport";
  * FUNCTION NAME        : Dashboard
  *****************************************************************/
 const Dashboard = () => {
+  const user = useSelector((state) => state.user.value);
+
+  console.log(user);
   return (
     <>
       <MyTicketOverview />
