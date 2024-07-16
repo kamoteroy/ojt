@@ -16,4 +16,5 @@ export const SidebarData = [
   { path: "/products", text: "Products", icon: <ProductIcon /> },
   { path: "/departments", text: "Departments", icon: <DepartmentIcon /> },
   { path: "/clients", text: "Clients", icon: <ClientIcon /> },
+  { path: "/reports", text: "Reports", icon: <ClientIcon /> },
 ];
