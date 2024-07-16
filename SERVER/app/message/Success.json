@@ -1,0 +1,14 @@
+{
+  "login": "Successfully Logged In",
+  "register": "Successfully Registered",
+  "logout": "Successfully Logged Out",
+  "added": "Record added successfully",
+  "updated": "Record updated successfully",
+  "deleted": "Record deleted successfully",
+  "passUpdated": "Password updated successfully",
+  "ImgUploaded": "File uploaded and User table updated successfully",
+  "emailSent": "Email sent successfully",
+  "subscribed": "Token subscribed successfully",
+  "unsubscribed": "Token unsubscribed successfully",
+  "ImageDeleted": "Image deleted successfully"
+}
