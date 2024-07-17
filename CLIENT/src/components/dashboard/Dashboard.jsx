@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TicketOverview from "./TicketOverview";
 import CustomerReport from "./CustomerReport";
 import TicketReport from "./TicketReport";
@@ -6,7 +6,9 @@ import MyTicketReport from "./MyTicketReport";
 import { Divider } from "@nextui-org/react";
 import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import GetPermission from "../shared/GetPermission.jsx";
+import { login } from "../login/userLogged.jsx";
 
 /****************************************************************
  * STATUS               : Pending(layout only)
@@ -16,9 +18,27 @@ import { useSelector } from "react-redux";
  * FUNCTION NAME        : Dashboard
  *****************************************************************/
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+  const permissions = GetPermission() || [];
+  console.log(user.permissions);
 
-  console.log(user);
+  const dispatchData = () => {
+    dispatch(
+      login({
+        permissions: permissions,
+        accessToken: user.accessToken,
+        refreshToken: user.accessToken,
+        user: user.user,
+      })
+    );
+  };
+
+  useEffect(() => {
+    console.log(user);
+    dispatchData();
+  }, [permissions]);
+
   return (
     <>
       <MyTicketOverview />

@@ -39,6 +39,8 @@ import ToasterUtils from "../shared/ToasterUtils";
 import addAuditTrail from "../shared/RecordAudit";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import GetPermission from "../shared/GetPermission";
+import { useSelector } from "react-redux";
+import { login } from "../login/userLogged.jsx";
 
 const UserTable = () => {
   const [filterValue, setFilterValue] = useState("");
@@ -69,6 +71,9 @@ const UserTable = () => {
   const canAddUser = permissions.includes("AddUser");
   const canDeleteUser = permissions.includes("DeleteUser");
   const canViewUser = permissions.includes("ViewUser");
+
+  const user = useSelector((state) => state.user.value);
+  console.log(user);
 
   useEffect(() => {
     if (isInitialRender.current) {
