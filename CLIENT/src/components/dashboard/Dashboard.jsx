@@ -21,7 +21,6 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const permissions = GetPermission() || [];
-  console.log(user.permissions);
 
   const dispatchData = () => {
     dispatch(

@@ -67,7 +67,6 @@ const UserTable = () => {
 
   //permissions
   const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
   const canAddUser = permissions.includes("AddUser");
   const canDeleteUser = permissions.includes("DeleteUser");
   const canViewUser = permissions.includes("ViewUser");
