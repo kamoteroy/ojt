@@ -71,7 +71,6 @@ const AuthChecker = () => {
 
     const checkTokenExpiration = async () => {
       await checkAccessTokenExpiration();
-      console.log("1111111111111111");
       await verifyTokens();
       console.log("222222222222222");
       await checkRefreshTokenExpiration();

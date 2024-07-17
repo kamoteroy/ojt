@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import GetPermission from "../shared/GetPermission.jsx";
+import { useSelector } from "react-redux";
 
 /****************************************************************
  * STATUS               : Finished
@@ -36,6 +37,7 @@ const EditDepartment = ({
 }) => {
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
+  const user = useSelector((state) => state.user.value);
 
   const {
     register,
@@ -47,8 +49,7 @@ const EditDepartment = ({
   } = useForm();
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEdit = permissions.includes("EditDepartment");
 
   console.log("Dept Id Now", departmentId);

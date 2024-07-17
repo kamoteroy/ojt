@@ -37,6 +37,7 @@ import UnAuthorizedPage from "../../pages/403Page";
 import addAuditTrail from "../shared/RecordAudit";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import ToasterUtils from "../shared/ToasterUtils";
+import { useSelector } from "react-redux";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
@@ -71,10 +72,10 @@ const AccessRightTable = () => {
   const [error, setError] = useState(null);
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canAdd = permissions.includes("AddAccessRight");
   const canDelete = permissions.includes("DeleteAccessRight");
   const canView = permissions.includes("ViewAccessRight");

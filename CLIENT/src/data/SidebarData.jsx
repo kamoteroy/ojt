@@ -8,13 +8,47 @@ import { AccessRightIcon } from "../icons/AccessRightIcon";
 
 // Define navigation items
 export const SidebarData = [
-  { path: "/", text: "Dashboard", icon: <HomeIcon /> },
-  { path: "/users", text: "Users", icon: <UserIcon /> },
-  { path: "/roles", text: "Roles", icon: <UserIcon /> },
-  { path: "/accessrights", text: "Access Rights", icon: <AccessRightIcon /> },
-  { path: "/tickets", text: "Tickets", icon: <TicketIcon /> },
-  { path: "/products", text: "Products", icon: <ProductIcon /> },
-  { path: "/departments", text: "Departments", icon: <DepartmentIcon /> },
-  { path: "/clients", text: "Clients", icon: <ClientIcon /> },
-  { path: "/reports", text: "Reports", icon: <ClientIcon /> },
+  { path: "/", text: "Dashboard", icon: <HomeIcon />, permissions: null },
+  {
+    path: "/users",
+    text: "Users",
+    icon: <UserIcon />,
+    permissions: "ViewAllUser",
+  },
+  {
+    path: "/roles",
+    text: "Roles",
+    icon: <UserIcon />,
+    permissions: "ViewAllRole",
+  },
+  {
+    path: "/accessrights",
+    text: "Access Rights",
+    icon: <AccessRightIcon />,
+    permissions: "ViewAllAccessRight",
+  },
+  {
+    path: "/tickets",
+    text: "Tickets",
+    icon: <TicketIcon />,
+    permissions: "ViewAllTicket",
+  },
+  {
+    path: "/products",
+    text: "Products",
+    icon: <ProductIcon />,
+    permissions: "ViewAllProduct",
+  },
+  {
+    path: "/departments",
+    text: "Departments",
+    icon: <DepartmentIcon />,
+    permissions: "ViewAllDepartment",
+  },
+  {
+    path: "/clients",
+    text: "Clients",
+    icon: <ClientIcon />,
+    permissions: "ViewAllClient",
+  },
 ];

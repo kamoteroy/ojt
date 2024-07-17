@@ -38,9 +38,7 @@ import Unauthorized from "../../pages/403Page";
 import ToasterUtils from "../shared/ToasterUtils";
 import addAuditTrail from "../shared/RecordAudit";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
-import GetPermission from "../shared/GetPermission";
 import { useSelector } from "react-redux";
-import { login } from "../login/userLogged.jsx";
 
 const UserTable = () => {
   const [filterValue, setFilterValue] = useState("");
@@ -64,15 +62,13 @@ const UserTable = () => {
   const { showMessage } = ToasterUtils();
   const { currentUserId } = useCurrentUser();
   const isInitialRender = useRef(true);
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
+  const permissions = user.permissions;
   const canAddUser = permissions.includes("AddUser");
   const canDeleteUser = permissions.includes("DeleteUser");
   const canViewUser = permissions.includes("ViewUser");
-
-  const user = useSelector((state) => state.user.value);
-  console.log(user);
 
   useEffect(() => {
     if (isInitialRender.current) {
@@ -85,7 +81,7 @@ const UserTable = () => {
         console.log("LEFT JOIN", userReponse.data);
         setUsers(userReponse.data);
         setLoading(false);
-        await addAuditTrail(currentUserId, "ViewAllUser", fetchData, "User");
+        await addAuditTrail(currentUserId, "ViewUser", fetchData, "User");
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error);

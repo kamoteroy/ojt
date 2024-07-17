@@ -13,7 +13,6 @@ const GetPermission = () => {
         console.error("Error getting Permission", error);
       }
     };
-
     fetchPermissions();
   }, []);
   return permissions;

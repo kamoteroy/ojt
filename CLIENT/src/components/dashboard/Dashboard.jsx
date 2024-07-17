@@ -4,10 +4,11 @@ import CustomerReport from "./CustomerReport";
 import TicketReport from "./TicketReport";
 import MyTicketReport from "./MyTicketReport";
 import { Divider } from "@nextui-org/react";
+import localforage from "localforage";
 import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
-import { useDispatch, useSelector } from "react-redux";
 import GetPermission from "../shared/GetPermission.jsx";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../login/userLogged.jsx";
 
 /****************************************************************
@@ -22,12 +23,12 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user.value);
   const permissions = GetPermission() || [];
 
-  const dispatchData = () => {
+  const dispatchData = async () => {
     dispatch(
       login({
         permissions: permissions,
         accessToken: user.accessToken,
-        refreshToken: user.accessToken,
+        refreshToken: user.refreshToken,
         user: user.user,
       })
     );

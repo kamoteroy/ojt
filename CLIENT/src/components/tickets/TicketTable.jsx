@@ -49,6 +49,7 @@ import ToasterUtils from "../shared/ToasterUtils";
 import TicketReview from "./TicketReview";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
+import { useSelector } from "react-redux";
 
 const statusColorMap = {
   solved: "success",
@@ -93,10 +94,10 @@ const TicketTable = () => {
   const isInitialRender = useRef(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canAdd = permissions.includes("AddTicket");
   const canDelete = permissions.includes("DeleteTicket");
   const canView = permissions.includes("ViewTicket");

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { InnoLogo } from "./InnoLogo.jsx";
 import { Divider } from "@nextui-org/react";
 import { SidebarData } from "../../data/SidebarData.jsx";
 import { Link, useLocation } from "react-router-dom";
+import GetPermission from "../shared/GetPermission";
 
 const SideNav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+  const permissions = GetPermission();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -19,6 +21,14 @@ const SideNav = () => {
     return location.pathname.includes(path);
   };
 
+  const filteredSidebarData = SidebarData.filter((item) => {
+    if (item.permissions) {
+      return permissions.includes(item.permissions);
+    }
+    return item.permissions === null;
+  });
+  //console.log("PERMISSION ni: ", permissions);
+  //console.log("filtered data: ", filteredSidebarData);
   return (
     <>
       {/* mobile navbar */}
@@ -74,12 +84,12 @@ const SideNav = () => {
         {/* nav */}
         <nav className="flex flex-col gap-1 min-h-screen px-2 py-10">
           {/* Map over navigation items */}
-          {SidebarData.map((item, index) => (
+          {filteredSidebarData.map((item, index) => (
             <Link
               key={index}
               to={item.path}
               className={`${
-                isActive(item.path) ? "bg-white text-primary" : "text-white"
+                isActive(item.path) ? "bg-white text-primary " : "text-white"
               } block py-2.5 px-4 rounded hover:bg-white  hover:text-primary transition duration-200 font-bold`}
             >
               <div className="flex flex-row gap-3">

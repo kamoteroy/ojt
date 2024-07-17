@@ -35,6 +35,7 @@ import axiosInstance from "../shared/axiosInstance";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { IconCircle } from "../../icons/IconCircle";
+import { useSelector } from "react-redux";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
@@ -71,10 +72,10 @@ const ClientTable = () => {
   const [error, setError] = useState(null);
   const [fromDate, setFromDate] = React.useState("");
   const [toDate, setToDate] = React.useState("");
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canAdd = permissions.includes("AddClient");
   const canDelete = permissions.includes("DeleteClient");
   const canView = permissions.includes("ViewClient");
@@ -87,6 +88,7 @@ const ClientTable = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/getcreatedupdatedby/Client`);
+        //console.log("table contents", response.data);
 
         // Format date fields and add DateCreatedCheck
         const formattedData = response.data.map((client) => {
@@ -125,11 +127,11 @@ const ClientTable = () => {
   }, []);
 
   const calculateColor = (DateSoftwareAcceptance, DateBCSExpiry) => {
-    console.log(
+    /*console.log(
       "DateSoftwareAcceptance, DateBCSExpiry",
       DateSoftwareAcceptance,
       DateBCSExpiry
-    );
+    );*/
     const today = new Date();
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -545,7 +547,7 @@ const ClientTable = () => {
         <TableBody emptyContent={"No clients found"} items={sortedItems}>
           {(item) => (
             <TableRow
-              onClick={() => canView && handleRowClick(item.Id)}
+              onClick={() => handleRowClick(item.Id)}
               key={item.Id}
               className={`hover:bg-gray-200 ${
                 canView ? "cursor-pointer" : "cursor-not-allowed"

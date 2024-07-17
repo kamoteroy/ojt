@@ -35,6 +35,7 @@ import { useCurrentUser } from "../../auth/CurrentUserContext";
 import ToasterUtils from "../shared/ToasterUtils";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
+import { useSelector } from "react-redux";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
@@ -77,10 +78,10 @@ const ProductTable = () => {
   const { showMessage } = ToasterUtils();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canAdd = permissions.includes("AddProduct");
   const canDelete = permissions.includes("DeleteProduct");
   const canView = permissions.includes("ViewProduct");

@@ -17,6 +17,7 @@ import axiosInstance from "../shared/axiosInstance";
 import { useForm } from "react-hook-form";
 import ToasterUtils from "../shared/ToasterUtils.jsx";
 import GetPermission from "../shared/GetPermission.jsx";
+import { useSelector } from "react-redux";
 /****************************************************************
  * STATUS               : Finished
  * DATE CREATED/UPDATED : 04-15-2024
@@ -35,6 +36,7 @@ const EditProduct = ({
   const [categories, setCategories] = useState([]);
   const [touched, setTouched] = useState(false);
   const { showMessage } = ToasterUtils();
+  const user = useSelector((state) => state.user.value);
 
   const {
     register,
@@ -46,8 +48,7 @@ const EditProduct = ({
   } = useForm();
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEdit = permissions.includes("EditProduct");
 
   useEffect(() => {

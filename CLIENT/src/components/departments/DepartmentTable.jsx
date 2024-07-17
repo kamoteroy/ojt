@@ -37,6 +37,7 @@ import ToasterUtils from "../shared/ToasterUtils";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
+import { useSelector } from "react-redux";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
@@ -80,10 +81,10 @@ const DepartmentTable = () => {
   const isInitialRender = useRef(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canAdd = permissions.includes("AddDepartment");
   const canDelete = permissions.includes("DeleteDepartment");
   const canView = permissions.includes("ViewDepartment");

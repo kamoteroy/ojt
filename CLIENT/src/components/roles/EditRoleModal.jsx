@@ -19,10 +19,12 @@ import { useForm } from "react-hook-form";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import GetPermission from "../shared/GetPermission.jsx";
+import { useSelector } from "react-redux";
 
 const EditRole = ({ isOpen, onOpenChange, onSuccess, id, details }) => {
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
+  const user = useSelector((state) => state.user.value);
 
   const {
     register,
@@ -34,8 +36,7 @@ const EditRole = ({ isOpen, onOpenChange, onSuccess, id, details }) => {
   } = useForm();
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEdit = permissions.includes("EditRole");
 
   const onSubmit = async (data) => {
