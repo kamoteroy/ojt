@@ -31,6 +31,7 @@ import ToasterUtils from "../shared/ToasterUtils";
 import { formatDate, formatAMPM } from "../shared/FormatDate";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
+import Breadcrumbs from "../../routes/breadcrumb";
 
 const colors = [
   "default",
@@ -134,119 +135,122 @@ const RoleDetails = () => {
   }
 
   return (
-    <div className="bg-white min-h-fit py-10 px-8">
-      <div className="flex flex-row text-2xl font-bold uppercase">
-        {`${details.Name || ""} Details`}
-      </div>
-      <Divider />
-      <div className="flex-row py-3 uppercase font-bold pb-14">
-        Primary Information
-      </div>
-      {/* Primary Information */}
-      <div className="flex flex-col md:flex-row gap-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+    <>
+      <Breadcrumbs />
+      <div className="bg-white min-h-fit py-10 px-8">
+        <div className="flex flex-row text-2xl font-bold uppercase">
+          {`${details.Name || ""} Details`}
+        </div>
+        <Divider />
+        <div className="flex-row py-3 uppercase font-bold pb-14">
+          Primary Information
+        </div>
+        {/* Primary Information */}
+        <div className="flex flex-col md:flex-row gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+            <Input
+              type="text"
+              label="Role Name"
+              value={details.Name || ""}
+              readOnly
+            />
+            <Input
+              type="text"
+              label="Description"
+              value={details.Description || ""}
+              readOnly
+            />
+          </div>
+        </div>
+        <Divider />
+        <div className="flex flex-row items-center pt-10 pb-3 uppercase font-bold justify-between">
+          <h1 className="text-xl"> Access Rights</h1>
+        </div>
+        <div className="flex flex-row justify-between items-center gap-4">
           <Input
             type="text"
-            label="Role Name"
-            value={details.Name || ""}
-            readOnly
+            label="Search"
+            placeholder="Search Access Right"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Input
-            type="text"
-            label="Description"
-            value={details.Description || ""}
-            readOnly
+          <Button
+            color="primary"
+            endContent={<PlusIcon />}
+            size="lg"
+            onPress={() => setAddModalOpen(true)}
+            isDisabled={!canAdd}
+          >
+            Add New
+          </Button>
+        </div>
+        <div className="flex flex-col gap-3 pt-5">
+          <Table
+            color={selectedColor}
+            selectionMode="single"
+            sortDescriptor={sortDescriptor}
+            aria-label="Example static collection table"
+            onSortChange={setSortDescriptor}
+          >
+            <TableHeader>
+              <TableColumn allowsSorting={details.AccessRight}>
+                Access Right
+              </TableColumn>
+              <TableColumn>Date Added</TableColumn>
+              <TableColumn>Action</TableColumn>
+            </TableHeader>
+            <TableBody emptyContent={"No rows to display."}>
+              {filteredAccessRights.map((access, index) => (
+                <TableRow key={index}>
+                  <TableCell>{access.AccessRight}</TableCell>
+                  <TableCell>
+                    {formatDate(access.PermissionDateCreated)}
+                  </TableCell>
+
+                  <TableCell>
+                    {/* Action Cell */}
+                    <div className="relative flex items-center gap-2">
+                      {/* Edit Icon */}
+                      <Tooltip content="Edit role"></Tooltip>
+                      {/* Delete Icon */}
+                      <Tooltip color="danger" content="Delete role">
+                        <Link
+                          className="text-lg text-danger cursor-pointer active:opacity-50"
+                          onClick={() => handleDeleteData(access.PermissionId)}
+                        >
+                          <DeleteIcon />
+                        </Link>
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <ModalApp
+            isOpen={deleteModalOpen}
+            onOpenChange={setDeleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            title="Delete Permission"
+            content="Are you sure you want to delete this Permission?"
+            actionButtonLabel="Delete"
+            actionButtonOnClick={deleteData}
+            permission={!canDelete}
           />
         </div>
-      </div>
-      <Divider />
-      <div className="flex flex-row items-center pt-10 pb-3 uppercase font-bold justify-between">
-        <h1 className="text-xl"> Access Rights</h1>
-      </div>
-      <div className="flex flex-row justify-between items-center gap-4">
-        <Input
-          type="text"
-          label="Search"
-          placeholder="Search Access Right"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <Button
-          color="primary"
-          endContent={<PlusIcon />}
-          size="lg"
-          onPress={() => setAddModalOpen(true)}
-          isDisabled={!canAdd}
-        >
-          Add New
-        </Button>
-      </div>
-      <div className="flex flex-col gap-3 pt-5">
-        <Table
-          color={selectedColor}
-          selectionMode="single"
-          sortDescriptor={sortDescriptor}
-          aria-label="Example static collection table"
-          onSortChange={setSortDescriptor}
-        >
-          <TableHeader>
-            <TableColumn allowsSorting={details.AccessRight}>
-              Access Right
-            </TableColumn>
-            <TableColumn>Date Added</TableColumn>
-            <TableColumn>Action</TableColumn>
-          </TableHeader>
-          <TableBody emptyContent={"No rows to display."}>
-            {filteredAccessRights.map((access, index) => (
-              <TableRow key={index}>
-                <TableCell>{access.AccessRight}</TableCell>
-                <TableCell>
-                  {formatDate(access.PermissionDateCreated)}
-                </TableCell>
-
-                <TableCell>
-                  {/* Action Cell */}
-                  <div className="relative flex items-center gap-2">
-                    {/* Edit Icon */}
-                    <Tooltip content="Edit role"></Tooltip>
-                    {/* Delete Icon */}
-                    <Tooltip color="danger" content="Delete role">
-                      <Link
-                        className="text-lg text-danger cursor-pointer active:opacity-50"
-                        onClick={() => handleDeleteData(access.PermissionId)}
-                      >
-                        <DeleteIcon />
-                      </Link>
-                    </Tooltip>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <ModalApp
-          isOpen={deleteModalOpen}
-          onOpenChange={setDeleteModalOpen}
-          onClose={() => setDeleteModalOpen(false)}
-          title="Delete Permission"
-          content="Are you sure you want to delete this Permission?"
-          actionButtonLabel="Delete"
-          actionButtonOnClick={deleteData}
-          permission={!canDelete}
+        <div className="pt-10 justify-end flex gap-4">
+          <Button color="primary" variant="ghost" onClick={handleGoBack}>
+            Back
+          </Button>
+        </div>
+        <AddPermission
+          isOpen={addModalOpen}
+          onOpenChange={setAddModalOpen}
+          roleId={id}
+          onSuccess={fetchData}
         />
       </div>
-      <div className="pt-10 justify-end flex gap-4">
-        <Button color="primary" variant="ghost" onClick={handleGoBack}>
-          Back
-        </Button>
-      </div>
-      <AddPermission
-        isOpen={addModalOpen}
-        onOpenChange={setAddModalOpen}
-        roleId={id}
-        onSuccess={fetchData}
-      />
-    </div>
+    </>
   );
 };
 

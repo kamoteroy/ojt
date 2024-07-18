@@ -22,6 +22,7 @@ import ToasterUtils from "../shared/ToasterUtils";
 import addAuditTrail from "../shared/RecordAudit";
 import { EditIcon } from "../../icons/EditIcon";
 import { useSelector } from "react-redux";
+import Breadcrumbs from "../../routes/breadcrumb";
 
 const EditUser = () => {
   const { userId } = useParams();
@@ -210,356 +211,359 @@ const EditUser = () => {
   };
 
   return (
-    <div className="bg-white min-h-fit py-10 px-8">
-      <div className="flex flex-row text-2xl font-bold uppercase">
-        Edit User
-        <Button
-          isIconOnly
-          size="sm"
-          variant="flat"
-          color="secondary"
-          className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
-          onClick={handleEditToggle}
-        >
-          <EditIcon />
-        </Button>
-      </div>
-      <Divider />
-      <div className="flex-row py-3 uppercase font-bold pb-14">
-        Primary Information
-      </div>
-      {/* Primary Information */}
-      {Object.keys(details).length > 0 && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col md:flex-row gap-16">
-            <Tooltip
-              content="Edit Image"
-              color="warning"
-              className="text-white"
-            >
-              <div className="relative flex flex-col gap-2 items-center justify-center">
-                <Skeleton isLoaded={!showSkeleton} className="rounded-full">
-                  <div className="relative inline-block rounded-full overflow-hidden w-[200px] h-[200px]">
-                    <img
-                      alt="Error"
-                      src={imagePreview || imageUrl}
-                      className="object-cover w-full h-full"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://i.pravatar.cc/150?u=a04258114e29026708c";
-                      }}
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      disabled={!isEditable}
-                      name="image"
-                      onChange={(e) => setImageFile(e.target.files[0])}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
-                      style={{ zIndex: 1 }}
-                    />
-                  </div>
-                </Skeleton>
+    <>
+      <Breadcrumbs />
+      <div className="bg-white min-h-fit py-10 px-8">
+        <div className="flex flex-row text-2xl font-bold uppercase">
+          Edit User
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="secondary"
+            className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
+            onClick={handleEditToggle}
+          >
+            <EditIcon />
+          </Button>
+        </div>
+        <Divider />
+        <div className="flex-row py-3 uppercase font-bold pb-14">
+          Primary Information
+        </div>
+        {/* Primary Information */}
+        {Object.keys(details).length > 0 && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col md:flex-row gap-16">
+              <Tooltip
+                content="Edit Image"
+                color="warning"
+                className="text-white"
+              >
+                <div className="relative flex flex-col gap-2 items-center justify-center">
+                  <Skeleton isLoaded={!showSkeleton} className="rounded-full">
+                    <div className="relative inline-block rounded-full overflow-hidden w-[200px] h-[200px]">
+                      <img
+                        alt="Error"
+                        src={imagePreview || imageUrl}
+                        className="object-cover w-full h-full"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://i.pravatar.cc/150?u=a04258114e29026708c";
+                        }}
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        disabled={!isEditable}
+                        name="image"
+                        onChange={(e) => setImageFile(e.target.files[0])}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        style={{ zIndex: 1 }}
+                      />
+                    </div>
+                  </Skeleton>
+                </div>
+              </Tooltip>
+              <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3">
+                <Input
+                  type="text"
+                  label="First Name"
+                  autoComplete="off"
+                  disabled={!isEditable}
+                  name="Firstname"
+                  defaultValue={details.Firstname || ""}
+                  {...register("Firstname", {
+                    required: "Firstname is required",
+                    maxLength: 50,
+                    validate: {
+                      onlyLetters: (value) =>
+                        isOnlyLetters(value) ||
+                        "First name should contain only letters",
+                    },
+                  })}
+                  isInvalid={isInputInvalid("Firstname")}
+                  errorMessage={errors.Firstname && errors.Firstname.message}
+                />
+                <Input
+                  type="text"
+                  label="Middle Name"
+                  disabled={!isEditable}
+                  autoComplete="off"
+                  name="Middlename"
+                  defaultValue={details.Middlename || ""}
+                  {...register("Middlename", {
+                    validate: {
+                      onlyLetters: (value) =>
+                        isOnlyLetters(value) ||
+                        "Middle name should contain only letters",
+                    },
+                  })}
+                  isInvalid={isInputInvalid("Middlename")}
+                  errorMessage={errors.Middlename && errors.Middlename.message}
+                />
+                <Input
+                  type="text"
+                  label="Last Name"
+                  disabled={!isEditable}
+                  autoComplete="off"
+                  name="Lastname"
+                  defaultValue={details.Lastname || ""}
+                  {...register("Lastname", {
+                    required: "Lastname is required",
+                    maxLength: 50,
+                    validate: {
+                      onlyLetters: (value) =>
+                        isOnlyLetters(value) ||
+                        "Last name should contain only letters",
+                    },
+                  })}
+                  isInvalid={isInputInvalid("Lastname")}
+                  errorMessage={errors.Lastname && errors.Lastname.message}
+                />
+
+                <Input
+                  type="text"
+                  label="Username"
+                  disabled={!isEditable}
+                  autoComplete="off"
+                  name="Username"
+                  defaultValue={details.Username || ""}
+                  {...register("Username", {
+                    required: "Username is required",
+                    maxLength: 50,
+                  })}
+                  isInvalid={isInputInvalid("Username")}
+                  errorMessage={errors.Username && errors.Username.message}
+                />
+                <Select
+                  label="Status"
+                  placeholder={
+                    details.isDeactivated === 0
+                      ? "Active"
+                      : "Disabled" || "Select Status"
+                  }
+                  defaultValue={details.isDeactivated || ""}
+                  {...register("isDeactivated")}
+                  isInvalid={isInputInvalid("isDeactivated")}
+                  errorMessage={
+                    errors.isDeactivated && errors.isDeactivated.message
+                  }
+                  autoComplete="off"
+                >
+                  {SelectStatus.map((status) => (
+                    <SelectItem
+                      key={status.value}
+                      value={status.value}
+                      isDisabled={!isEditable}
+                    >
+                      {status.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <div className="flex flex-row gap-2">
+                  <Input
+                    name="Password"
+                    label="Password"
+                    disabled={!isEditable}
+                    size="md"
+                    placeholder={password}
+                    value={password}
+                    type={isVisible ? "text" : "password"}
+                    {...register("Password", {
+                      onChange: (e) => setPassword(e.target.value),
+                      pattern: {
+                        value: passwordRegex,
+                        message:
+                          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
+                      },
+                    })}
+                    autoComplete="off"
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={toggleVisibility}
+                      >
+                        {isVisible ? (
+                          <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                          <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                      </button>
+                    }
+                    isInvalid={isInputInvalid("Password")}
+                    errorMessage={errors.Password && errors.Password.message}
+                  />
+
+                  <Button
+                    color="primary"
+                    onClick={resetPass}
+                    size="md"
+                    className="py-7"
+                    isDisabled={!isEditable}
+                  >
+                    Reset
+                  </Button>
+                </div>
               </div>
-            </Tooltip>
-            <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3">
+            </div>
+            {/* Additional Information */}
+            <div className="flex-row pt-10 pb-3 uppercase font-bold">
+              Additional Information
+            </div>
+            <div className="flex flex-col md:flex-row gap-4 ">
               <Input
-                type="text"
-                label="First Name"
+                type="number"
+                label="Contact Number"
                 autoComplete="off"
                 disabled={!isEditable}
-                name="Firstname"
-                defaultValue={details.Firstname || ""}
-                {...register("Firstname", {
-                  required: "Firstname is required",
-                  maxLength: 50,
-                  validate: {
-                    onlyLetters: (value) =>
-                      isOnlyLetters(value) ||
-                      "First name should contain only letters",
+                name="ContactNumber"
+                defaultValue={details.ContactNumber || ""}
+                {...register("ContactNumber", {
+                  required: "Contact Number is required",
+                  pattern: {
+                    value: /^09\d{9}$/,
+                    message: "Invalid Contact Number (e.g 09xxxxxxxxx)",
                   },
                 })}
-                isInvalid={isInputInvalid("Firstname")}
-                errorMessage={errors.Firstname && errors.Firstname.message}
-              />
-              <Input
-                type="text"
-                label="Middle Name"
-                disabled={!isEditable}
-                autoComplete="off"
-                name="Middlename"
-                defaultValue={details.Middlename || ""}
-                {...register("Middlename", {
-                  validate: {
-                    onlyLetters: (value) =>
-                      isOnlyLetters(value) ||
-                      "Middle name should contain only letters",
-                  },
-                })}
-                isInvalid={isInputInvalid("Middlename")}
-                errorMessage={errors.Middlename && errors.Middlename.message}
-              />
-              <Input
-                type="text"
-                label="Last Name"
-                disabled={!isEditable}
-                autoComplete="off"
-                name="Lastname"
-                defaultValue={details.Lastname || ""}
-                {...register("Lastname", {
-                  required: "Lastname is required",
-                  maxLength: 50,
-                  validate: {
-                    onlyLetters: (value) =>
-                      isOnlyLetters(value) ||
-                      "Last name should contain only letters",
-                  },
-                })}
-                isInvalid={isInputInvalid("Lastname")}
-                errorMessage={errors.Lastname && errors.Lastname.message}
+                isInvalid={isInputInvalid("ContactNumber")}
+                errorMessage={
+                  errors.ContactNumber && errors.ContactNumber.message
+                }
               />
 
               <Input
                 type="text"
-                label="Username"
-                disabled={!isEditable}
+                label="Address"
                 autoComplete="off"
-                name="Username"
-                defaultValue={details.Username || ""}
-                {...register("Username", {
-                  required: "Username is required",
+                disabled={!isEditable}
+                name="Address"
+                defaultValue={details.Address || ""}
+                {...register("Address", {
+                  required: "Address is required",
                   maxLength: 50,
                 })}
-                isInvalid={isInputInvalid("Username")}
-                errorMessage={errors.Username && errors.Username.message}
+                isInvalid={isInputInvalid("Address")}
+                errorMessage={errors.Address && errors.Address.message}
               />
+
+              <Input
+                type="date"
+                label="Birthdate"
+                autoComplete="off"
+                disabled={!isEditable}
+                name="Birthdate"
+                defaultValue={details.Birthdate || ""}
+                {...register("Birthdate", {
+                  pattern: {
+                    value:
+                      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$|^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
+                    message: "Invalid date format (dd/mm/yyyy)",
+                  },
+                })}
+                isInvalid={isInputInvalid("Birthdate")}
+                errorMessage={errors.Birthdate && errors.Birthdate.message}
+              />
+            </div>
+            {/* Select Role, Department, Gender */}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 pt-10">
               <Select
-                label="Status"
-                placeholder={
-                  details.isDeactivated === 0
-                    ? "Active"
-                    : "Disabled" || "Select Status"
-                }
-                defaultValue={details.isDeactivated || ""}
-                {...register("isDeactivated")}
-                isInvalid={isInputInvalid("isDeactivated")}
-                errorMessage={
-                  errors.isDeactivated && errors.isDeactivated.message
-                }
+                label="Gender"
+                placeholder={details.Gender || "Select Gender"}
+                defaultValue={details.Gender || ""}
+                {...register("Gender")}
+                isInvalid={isInputInvalid("Gender")}
+                errorMessage={errors.Gender && errors.Gender.message}
                 autoComplete="off"
               >
-                {SelectStatus.map((status) => (
+                {SelectGender.map((gender) => (
                   <SelectItem
-                    key={status.value}
-                    value={status.value}
+                    key={gender.value}
+                    value={gender.value}
                     isDisabled={!isEditable}
                   >
-                    {status.label}
+                    {gender.label}
                   </SelectItem>
                 ))}
               </Select>
-              <div className="flex flex-row gap-2">
-                <Input
-                  name="Password"
-                  label="Password"
-                  disabled={!isEditable}
-                  size="md"
-                  placeholder={password}
-                  value={password}
-                  type={isVisible ? "text" : "password"}
-                  {...register("Password", {
-                    onChange: (e) => setPassword(e.target.value),
-                    pattern: {
-                      value: passwordRegex,
-                      message:
-                        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
-                    },
-                  })}
-                  autoComplete="off"
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
+
+              <Select
+                label="Role"
+                placeholder={details.RoleName || "Select Role"}
+                defaultValue={!editedDetails.RoleId ? details.RoleId || "" : ""}
+                {...register("RoleId")}
+                onChange={(e) => {
+                  setEditedDetails((prevDetails) => ({
+                    ...prevDetails,
+                    RoleId: e.target.value,
+                  }));
+                }}
+              >
+                {roles &&
+                  roles.map((role) => (
+                    <SelectItem
+                      key={role.Id}
+                      value={role.Id}
+                      isDisabled={!isEditable}
                     >
-                      {isVisible ? (
-                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                    </button>
-                  }
-                  isInvalid={isInputInvalid("Password")}
-                  errorMessage={errors.Password && errors.Password.message}
-                />
-
-                <Button
-                  color="primary"
-                  onClick={resetPass}
-                  size="md"
-                  className="py-7"
-                  isDisabled={!isEditable}
-                >
-                  Reset
-                </Button>
-              </div>
+                      {role.Name}
+                    </SelectItem>
+                  ))}
+              </Select>
+              <Select
+                label="Department"
+                placeholder={details.DepartmentName || "Select Department"}
+                defaultValue={
+                  !editedDetails.DepartmentId ? details.DepartmentId || "" : ""
+                }
+                {...register("DepartmentId")}
+                onChange={(e) => {
+                  setEditedDetails((prevDetails) => ({
+                    ...prevDetails,
+                    DepartmentId: e.target.value,
+                  }));
+                }}
+              >
+                {departments &&
+                  departments.map((department) => (
+                    <SelectItem
+                      key={department.Id}
+                      value={department.Id}
+                      isDisabled={!isEditable}
+                    >
+                      {department.Name}
+                    </SelectItem>
+                  ))}
+              </Select>
             </div>
-          </div>
-          {/* Additional Information */}
-          <div className="flex-row pt-10 pb-3 uppercase font-bold">
-            Additional Information
-          </div>
-          <div className="flex flex-col md:flex-row gap-4 ">
-            <Input
-              type="number"
-              label="Contact Number"
-              autoComplete="off"
-              disabled={!isEditable}
-              name="ContactNumber"
-              defaultValue={details.ContactNumber || ""}
-              {...register("ContactNumber", {
-                required: "Contact Number is required",
-                pattern: {
-                  value: /^09\d{9}$/,
-                  message: "Invalid Contact Number (e.g 09xxxxxxxxx)",
-                },
-              })}
-              isInvalid={isInputInvalid("ContactNumber")}
-              errorMessage={
-                errors.ContactNumber && errors.ContactNumber.message
-              }
-            />
-
-            <Input
-              type="text"
-              label="Address"
-              autoComplete="off"
-              disabled={!isEditable}
-              name="Address"
-              defaultValue={details.Address || ""}
-              {...register("Address", {
-                required: "Address is required",
-                maxLength: 50,
-              })}
-              isInvalid={isInputInvalid("Address")}
-              errorMessage={errors.Address && errors.Address.message}
-            />
-
-            <Input
-              type="date"
-              label="Birthdate"
-              autoComplete="off"
-              disabled={!isEditable}
-              name="Birthdate"
-              defaultValue={details.Birthdate || ""}
-              {...register("Birthdate", {
-                pattern: {
-                  value:
-                    /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$|^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-                  message: "Invalid date format (dd/mm/yyyy)",
-                },
-              })}
-              isInvalid={isInputInvalid("Birthdate")}
-              errorMessage={errors.Birthdate && errors.Birthdate.message}
-            />
-          </div>
-          {/* Select Role, Department, Gender */}
-
-          <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 pt-10">
-            <Select
-              label="Gender"
-              placeholder={details.Gender || "Select Gender"}
-              defaultValue={details.Gender || ""}
-              {...register("Gender")}
-              isInvalid={isInputInvalid("Gender")}
-              errorMessage={errors.Gender && errors.Gender.message}
-              autoComplete="off"
-            >
-              {SelectGender.map((gender) => (
-                <SelectItem
-                  key={gender.value}
-                  value={gender.value}
-                  isDisabled={!isEditable}
-                >
-                  {gender.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label="Role"
-              placeholder={details.RoleName || "Select Role"}
-              defaultValue={!editedDetails.RoleId ? details.RoleId || "" : ""}
-              {...register("RoleId")}
-              onChange={(e) => {
-                setEditedDetails((prevDetails) => ({
-                  ...prevDetails,
-                  RoleId: e.target.value,
-                }));
-              }}
-            >
-              {roles &&
-                roles.map((role) => (
-                  <SelectItem
-                    key={role.Id}
-                    value={role.Id}
-                    isDisabled={!isEditable}
-                  >
-                    {role.Name}
-                  </SelectItem>
-                ))}
-            </Select>
-            <Select
-              label="Department"
-              placeholder={details.DepartmentName || "Select Department"}
-              defaultValue={
-                !editedDetails.DepartmentId ? details.DepartmentId || "" : ""
-              }
-              {...register("DepartmentId")}
-              onChange={(e) => {
-                setEditedDetails((prevDetails) => ({
-                  ...prevDetails,
-                  DepartmentId: e.target.value,
-                }));
-              }}
-            >
-              {departments &&
-                departments.map((department) => (
-                  <SelectItem
-                    key={department.Id}
-                    value={department.Id}
-                    isDisabled={!isEditable}
-                  >
-                    {department.Name}
-                  </SelectItem>
-                ))}
-            </Select>
-          </div>
-          {/* Submit Button */}
-          <div className="pt-10 justify-end flex gap-4">
-            <Button color="primary" variant="ghost" onClick={handleGoBack}>
-              Back
-            </Button>
-            <Button
-              color="primary"
-              onClick={() => setIsModalOpen(true)}
-              isDisabled={!canEditUser || !isEditable}
-            >
-              Save Changes
-            </Button>
-            <ModalApp
-              isOpen={isModalOpen}
-              onOpenChange={setIsModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              title="Edit User"
-              content="Proceed to Save Changes?"
-              actionButtonLabel="Confirm"
-              actionButtonOnClick={() => handleSubmit(onSubmit)()}
-            />
-          </div>
-        </form>
-      )}
-    </div>
+            {/* Submit Button */}
+            <div className="pt-10 justify-end flex gap-4">
+              <Button color="primary" variant="ghost" onClick={handleGoBack}>
+                Back
+              </Button>
+              <Button
+                color="primary"
+                onClick={() => setIsModalOpen(true)}
+                isDisabled={!canEditUser || !isEditable}
+              >
+                Save Changes
+              </Button>
+              <ModalApp
+                isOpen={isModalOpen}
+                onOpenChange={setIsModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Edit User"
+                content="Proceed to Save Changes?"
+                actionButtonLabel="Confirm"
+                actionButtonOnClick={() => handleSubmit(onSubmit)()}
+              />
+            </div>
+          </form>
+        )}
+      </div>
+    </>
   );
 };
 

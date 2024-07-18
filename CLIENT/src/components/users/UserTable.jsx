@@ -18,7 +18,7 @@ import {
   Tooltip,
   Skeleton,
 } from "@nextui-org/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from "../../icons/ChevronDownIcon";
 import { PlusIcon } from "../../icons/PlusIcon";
 import { SearchIcon } from "../../icons/SearchIcon";
@@ -39,6 +39,7 @@ import ToasterUtils from "../shared/ToasterUtils";
 import addAuditTrail from "../shared/RecordAudit";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import { useSelector } from "react-redux";
+import Breadcrumbs from "../../routes/breadcrumb";
 
 const UserTable = () => {
   const [filterValue, setFilterValue] = useState("");
@@ -63,6 +64,8 @@ const UserTable = () => {
   const { currentUserId } = useCurrentUser();
   const isInitialRender = useRef(true);
   const user = useSelector((state) => state.user.value);
+  const location = useLocation();
+  console.log(location);
 
   //permissions
   const permissions = user.permissions;
@@ -238,99 +241,102 @@ const UserTable = () => {
   const topContent = React.useMemo(() => {
     const totalFilteredUsers = filteredItems.length;
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-center">
-          <Input
-            isClearable
-            className="w-full"
-            placeholder="Search by Username"
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-            size="sm"
-          />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
+      <>
+        <Breadcrumbs />
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between gap-3 items-center">
+            <Input
+              isClearable
+              className="w-full"
+              placeholder="Search by Username"
+              startContent={<SearchIcon />}
+              value={filterValue}
+              onClear={() => onClear()}
+              onValueChange={onSearchChange}
+              size="sm"
+            />
+            <div className="flex gap-3">
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
+                  >
+                    Status
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={statusFilter}
+                  selectionMode="multiple"
+                  onSelectionChange={setStatusFilter}
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {status.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
+                  {statusOptions.map((status) => (
+                    <DropdownItem key={status.uid} className="capitalize">
+                      {status.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
+                  >
+                    Columns
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={visibleColumns}
+                  selectionMode="multiple"
+                  onSelectionChange={setVisibleColumns}
                 >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
+                  {columns.map((column) => (
+                    <DropdownItem key={column.uid} className="capitalize">
+                      {column.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Button
+                color="primary"
+                endContent={<PlusIcon />}
+                size="lg"
+                onClick={() => navigate("/users/addusers")}
+                isDisabled={!canAddUser}
               >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {column.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              color="primary"
-              endContent={<PlusIcon />}
-              size="lg"
-              onClick={() => navigate("/users/addusers")}
-              isDisabled={!canAddUser}
-            >
-              Add New
-            </Button>
+                Add New
+              </Button>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-default-400 text-small">
+              Total {totalFilteredUsers} users
+            </span>
+            <label className="flex items-center text-default-400 text-small">
+              Rows per page:
+              <select
+                className="bg-transparent outline-none text-default-400 text-small"
+                onChange={onRowsPerPageChange}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </label>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {totalFilteredUsers} users
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
-        </div>
-      </div>
+      </>
     );
   }, [
     filterValue,

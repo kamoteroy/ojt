@@ -10,6 +10,7 @@ import MyCustomerReport from "./MyCustomerReport";
 import GetPermission from "../shared/GetPermission.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogged } from "../login/userLogged.jsx";
+import { useLocation } from "react-router-dom";
 
 /****************************************************************
  * STATUS               : Pending(layout only)
@@ -22,6 +23,8 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const permissions = GetPermission() || [];
+  const location = useLocation();
+  console.log(location);
 
   const dispatchData = async () => {
     dispatch(

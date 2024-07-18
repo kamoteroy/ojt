@@ -5,11 +5,14 @@ const Breadcrumbs = () => {
   const pathnames = location.pathname.split("/").filter((x) => x);
   let breadcrumbPath = "";
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <div className="breadcrumbs">
-      <Link to="/">Dashoard</Link>
       {pathnames.map((name, index) => {
-        breadcrumbPath += `/${name}`;
+        breadcrumbPath += `${name}`;
         const isLast = index === pathnames.length - 1;
         console.log(pathnames, breadcrumbPath);
 
@@ -17,11 +20,14 @@ const Breadcrumbs = () => {
         console.log("Breadcrumb Path:", breadcrumbPath);
 
         return isLast ? (
-          <span key={breadcrumbPath}> / {name}</span>
+          <span key={breadcrumbPath}>
+            {" "}
+            <Link to={-1}>{capitalizeFirstLetter(name)}</Link>
+          </span>
         ) : (
           <span key={breadcrumbPath}>
             {" "}
-            / <Link to={breadcrumbPath}>{name}</Link>
+            <Link to={breadcrumbPath}>{capitalizeFirstLetter(name)}</Link> /
           </span>
         );
       })}
