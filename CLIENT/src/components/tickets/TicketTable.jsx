@@ -798,8 +798,9 @@ const TicketTable = () => {
               className={`hover:bg-gray-200 ${
                 canView ? "cursor-pointer" : "cursor-not-allowed"
               }`}
-              onClick={() =>
-                canView && navigate(`/tickets/editticket/${item.Id[0]}`)
+              onClick={
+                () => canView && navigate(`/tickets/editticket/${item.Id[0]}`)
+                /* canView && navigate(`/tickets/ticketdetails/${item.Id[0]}`) */
               }
             >
               {headerColumns.map((column) => (
