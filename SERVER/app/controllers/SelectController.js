@@ -198,5 +198,5 @@ module.exports = {
   getSingleTicketClientUserProduct,
   getPermission,
   getExcludedAccessRights,
-  getRemainingAccessRights
+  getRemainingAccessRights,
 };

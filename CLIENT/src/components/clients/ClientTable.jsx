@@ -88,8 +88,6 @@ const ClientTable = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/getcreatedupdatedby/Client`);
-        //console.log("table contents", response.data);
-
         // Format date fields and add DateCreatedCheck
         const formattedData = response.data.map((client) => {
           const dateCreatedCheck = new Date(); // Replace this with the actual value for DateCreatedCheck

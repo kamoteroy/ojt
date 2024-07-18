@@ -19,9 +19,9 @@ import { useCurrentUser } from "../../auth/CurrentUserContext";
 import axios from "axios";
 import { SelectGender, SelectStatus } from "../../data/SelectData";
 import ToasterUtils from "../shared/ToasterUtils";
-import GetPermission from "../shared/GetPermission";
 import addAuditTrail from "../shared/RecordAudit";
 import { EditIcon } from "../../icons/EditIcon";
+import { useSelector } from "react-redux";
 
 const EditUser = () => {
   const { userId } = useParams();
@@ -52,9 +52,10 @@ const EditUser = () => {
     navigate(-1);
   };
 
+  const user = useSelector((state) => state.user.value);
+
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEditUser = permissions.includes("EditUser");
   const [isEditable, setIsEditable] = useState(false);
 
