@@ -6,7 +6,7 @@ export const userSlice = createSlice({
     value: { user: null, accessToken: "", refreshToken: "", permissions: [] },
   },
   reducers: {
-    login: (state, action) => {
+    userLogged: (state, action) => {
       state.value = action.payload;
     },
     logout: (state) => {
@@ -15,6 +15,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login } = userSlice.actions;
+export const { userLogged } = userSlice.actions;
 
 export default userSlice.reducer;

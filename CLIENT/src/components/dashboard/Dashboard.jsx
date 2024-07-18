@@ -9,7 +9,7 @@ import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
 import GetPermission from "../shared/GetPermission.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../login/userLogged.jsx";
+import { userLogged } from "../login/userLogged.jsx";
 
 /****************************************************************
  * STATUS               : Pending(layout only)
@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const dispatchData = async () => {
     dispatch(
-      login({
+      userLogged({
         permissions: permissions,
         accessToken: user.accessToken,
         refreshToken: user.refreshToken,

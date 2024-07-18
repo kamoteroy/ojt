@@ -17,7 +17,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import AuthToken from "../../auth/AuthToken";
 import { useDispatch } from "react-redux";
-import { login } from "./userLogged";
+import { userLogged } from "./userLogged";
 import { useNavigate } from "react-router-dom";
 
 /****************************************************************
@@ -46,7 +46,7 @@ const Login = () => {
       //console.log("refreshToken: ", refreshToken);
       //console.log("accessToken", accessToken);
       dispatch(
-        login({
+        userLogged({
           user: user,
           accessToken: accessToken,
           refreshToken: refreshToken,
