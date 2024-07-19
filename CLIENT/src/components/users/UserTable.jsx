@@ -65,7 +65,6 @@ const UserTable = () => {
   const isInitialRender = useRef(true);
   const user = useSelector((state) => state.user.value);
   const location = useLocation();
-  console.log(location);
 
   //permissions
   const permissions = user.permissions;
@@ -81,7 +80,7 @@ const UserTable = () => {
     const fetchData = async () => {
       try {
         const userReponse = await axiosInstance.get(`/getuserleftrole/User`);
-        console.log("LEFT JOIN", userReponse.data);
+        //console.log("LEFT JOIN", userReponse.data);
         setUsers(userReponse.data);
         setLoading(false);
         await addAuditTrail(currentUserId, "ViewUser", fetchData, "User");

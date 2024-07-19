@@ -11,6 +11,7 @@ import GetPermission from "../shared/GetPermission.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogged } from "../login/userLogged.jsx";
 import { useLocation } from "react-router-dom";
+import AuthToken from "../../auth/AuthToken.jsx";
 
 /****************************************************************
  * STATUS               : Pending(layout only)
@@ -23,23 +24,21 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const permissions = GetPermission() || [];
-  const location = useLocation();
-  console.log(location);
 
   const dispatchData = async () => {
     dispatch(
       userLogged({
         permissions: permissions,
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-        user: user.user,
+        accessToken: await AuthToken.getAccessToken(),
+        refreshToken: await AuthToken.getRefreshToken(),
+        user: await AuthToken.getCurrentUser(),
       })
     );
   };
 
   useEffect(() => {
-    console.log(user);
     dispatchData();
+    console.log(user);
   }, [permissions]);
 
   return (

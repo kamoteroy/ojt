@@ -59,9 +59,13 @@ const EditUser = () => {
   const permissions = user.permissions;
   const canEditUser = permissions.includes("EditUser");
   const [isEditable, setIsEditable] = useState(false);
+  const [text, setText] = useState("USER DETAILS");
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
+    text === "USER DETAILS"
+      ? setText("EDIT USER DETAILS")
+      : setText("USER DETAILS");
   };
 
   const resetPass = async () => {
@@ -212,17 +216,18 @@ const EditUser = () => {
 
   return (
     <>
-      <Breadcrumbs />
+      <Breadcrumbs name={details.Firstname + " " + details.Lastname} />
       <div className="bg-white min-h-fit py-10 px-8">
         <div className="flex flex-row text-2xl font-bold uppercase">
-          Edit User
+          {text}
           <Button
             isIconOnly
             size="sm"
             variant="flat"
             color="secondary"
-            className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
+            className={`text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
             onClick={handleEditToggle}
+            isDisabled={!canEditUser}
           >
             <EditIcon />
           </Button>

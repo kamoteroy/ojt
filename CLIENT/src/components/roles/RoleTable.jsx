@@ -36,7 +36,6 @@ import axiosInstance from "../shared/axiosInstance";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
-import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { useSelector } from "react-redux";
 import Breadcrumbs from "../../routes/breadcrumb";

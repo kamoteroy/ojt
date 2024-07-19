@@ -67,9 +67,13 @@ const EditTicket = () => {
   console.log("permissions: ", permissions);
   const canEdit = permissions.includes("EditTicket");
   const [isEditable, setIsEditable] = useState(false);
+  const [text, setText] = useState("USER DETAILS");
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
+    text === "USER DETAILS"
+      ? setText("EDIT USER DETAILS")
+      : setText("USER DETAILS");
   };
 
   const onSubmit = async (data) => {
@@ -236,7 +240,7 @@ const EditTicket = () => {
           size="sm"
           variant="flat"
           color="secondary"
-          className={`text-lg text-default-400 cursor-pointer active:opacity-50 `}
+          className={`text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
           onClick={handleEditToggle}
         >
           <EditIcon />

@@ -63,8 +63,17 @@ const RoleDetails = () => {
   //permissions
   const permissions = GetPermission() || [];
   console.log("permissions: ", permissions);
+  const canEdit = permissions.includes("EditRole");
   const canAdd = permissions.includes("AddPermission");
   const canDelete = permissions.includes("DeletePermission");
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleEditToggle = () => {
+    setIsEditable(!isEditable);
+    text === "USER DETAILS"
+      ? setText("EDIT USER DETAILS")
+      : setText("USER DETAILS");
+  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -136,10 +145,21 @@ const RoleDetails = () => {
 
   return (
     <>
-      <Breadcrumbs />
+      <Breadcrumbs name={details.Name} />
       <div className="bg-white min-h-fit py-10 px-8">
         <div className="flex flex-row text-2xl font-bold uppercase">
           {`${details.Name || ""} Details`}
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="secondary"
+            className={`text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
+            onClick={handleEditToggle}
+            isDisabled={!canEdit}
+          >
+            <EditIcon />
+          </Button>
         </div>
         <Divider />
         <div className="flex-row py-3 uppercase font-bold pb-14">

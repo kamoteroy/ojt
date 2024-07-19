@@ -1,12 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = (props) => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   let breadcrumbPath = "";
 
   function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return parseInt(string)
+      ? ""
+      : string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   return (
@@ -14,15 +16,11 @@ const Breadcrumbs = () => {
       {pathnames.map((name, index) => {
         breadcrumbPath += `${name}`;
         const isLast = index === pathnames.length - 2;
-        console.log(pathnames, breadcrumbPath);
-
-        console.log("Pathnames:", pathnames);
-        console.log("Breadcrumb Path:", breadcrumbPath);
 
         return isLast ? (
           <span>
             {" "}
-            <Link to={1}>{"/ " + capitalizeFirstLetter(name)}</Link>
+            <Link to={1}>{"/ " + capitalizeFirstLetter(props.name)}</Link>
           </span>
         ) : (
           <span key={breadcrumbPath}>

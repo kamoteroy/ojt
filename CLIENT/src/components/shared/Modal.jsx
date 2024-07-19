@@ -19,8 +19,6 @@ export default function ModalApp({
   actionButtonOnClick,
   permission,
 }) {
-  console.log("permission: ", permission);
-
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
