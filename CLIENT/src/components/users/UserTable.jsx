@@ -64,7 +64,6 @@ const UserTable = () => {
   const { currentUserId } = useCurrentUser();
   const isInitialRender = useRef(true);
   const user = useSelector((state) => state.user.value);
-  const location = useLocation();
 
   //permissions
   const permissions = user.permissions;

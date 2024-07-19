@@ -31,7 +31,6 @@ const AuthChecker = () => {
     const verifyTokens = async () => {
       try {
         const res = await axiosInstance.get(`/verify`);
-        console.log("naa token");
         if (res.data.valid) {
           setLogin(true);
           const refreshToken = await AuthToken.getRefreshToken();
@@ -72,7 +71,6 @@ const AuthChecker = () => {
     const checkTokenExpiration = async () => {
       await checkAccessTokenExpiration();
       await verifyTokens();
-      console.log("222222222222222");
       await checkRefreshTokenExpiration();
     };
 
@@ -84,7 +82,6 @@ const AuthChecker = () => {
 
     return () => clearInterval(tokenCheckInterval);
   }, [setCurrentUserId]);
-  console.log(login);
   return login;
 };
 

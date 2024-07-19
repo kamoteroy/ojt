@@ -16,9 +16,6 @@ import { BASE_URL } from "../../routes/BaseUrl";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import AuthToken from "../../auth/AuthToken";
-import { useDispatch } from "react-redux";
-import { userLogged } from "./userLogged";
-import { useNavigate } from "react-router-dom";
 
 /****************************************************************
  * STATUS               : Pending(no multi userlogin yet)
@@ -34,31 +31,16 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const [loginError, setLoginError] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onSubmitLogin = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/login/User`, data);
 
-      const { accessToken, refreshToken, user } = response.data;
-      //console.log(response.data.user);
-      //console.log("refreshToken: ", refreshToken);
-      //console.log("accessToken", accessToken);
-      dispatch(
-        userLogged({
-          user: user,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-        })
-      );
-      await AuthToken.setTokens(accessToken, refreshToken);
-      navigate("/", { replace: true }, { state: user });
-      // Redirect to index
-      //window.location.href = "/";
+      const { accessToken, refreshToken } = response.data;
 
-      //navigate("/");
-      //window.location.replace("http://localhost:5000/");
+      await AuthToken.setTokens(accessToken, refreshToken);
+      // Redirect to index
+      window.location.href = "/";
     } catch (error) {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data.message || "Failed to login";

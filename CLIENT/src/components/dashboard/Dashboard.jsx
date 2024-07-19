@@ -4,13 +4,11 @@ import CustomerReport from "./CustomerReport";
 import TicketReport from "./TicketReport";
 import MyTicketReport from "./MyTicketReport";
 import { Divider } from "@nextui-org/react";
-import localforage from "localforage";
 import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
 import GetPermission from "../shared/GetPermission.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogged } from "../login/userLogged.jsx";
-import { useLocation } from "react-router-dom";
 import AuthToken from "../../auth/AuthToken.jsx";
 
 /****************************************************************
