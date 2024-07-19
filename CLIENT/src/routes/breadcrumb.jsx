@@ -13,21 +13,21 @@ const Breadcrumbs = () => {
     <div className="breadcrumbs">
       {pathnames.map((name, index) => {
         breadcrumbPath += `${name}`;
-        const isLast = index === pathnames.length - 1;
+        const isLast = index === pathnames.length - 2;
         console.log(pathnames, breadcrumbPath);
 
         console.log("Pathnames:", pathnames);
         console.log("Breadcrumb Path:", breadcrumbPath);
 
         return isLast ? (
-          <span key={breadcrumbPath}>
+          <span>
             {" "}
-            <Link to={-1}>{capitalizeFirstLetter(name)}</Link>
+            <Link to={1}>{"/ " + capitalizeFirstLetter(name)}</Link>
           </span>
         ) : (
           <span key={breadcrumbPath}>
             {" "}
-            <Link to={breadcrumbPath}>{capitalizeFirstLetter(name)}</Link> /
+            <Link to={-1}>{capitalizeFirstLetter(name)}</Link>
           </span>
         );
       })}
