@@ -32,6 +32,7 @@ import { formatDate, formatAMPM } from "../shared/FormatDate";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import Breadcrumbs from "../../routes/breadcrumb";
+import { useSelector } from "react-redux";
 
 const colors = [
   "default",
@@ -60,10 +61,10 @@ const RoleDetails = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const user = useSelector((state) => state.user.value);
 
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEdit = permissions.includes("EditRole");
   const canAdd = permissions.includes("AddPermission");
   const canDelete = permissions.includes("DeletePermission");
