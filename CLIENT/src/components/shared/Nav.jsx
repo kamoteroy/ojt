@@ -20,6 +20,8 @@ import { useCurrentUser } from "../../auth/CurrentUserContext.jsx";
 import { useNotification } from "../notification/NotificationContext.jsx";
 import addAuditTrail from "./RecordAudit.jsx";
 import ModalApp from "./Modal.jsx";
+import { useDispatch } from "react-redux";
+import { logout } from "../login/userLogged.jsx";
 
 /****************************************************************
  * STATUS               : Done(Tentative)
@@ -34,6 +36,7 @@ const Nav = () => {
   const { currentUserId } = useCurrentUser();
   const { unreadCount, setUnreadCount } = useNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUnreadCount = async () => {
@@ -67,7 +70,9 @@ const Nav = () => {
       });
     }
     await addAuditTrail(currentUserId, "Logout", null, null);
-    window.location.href = "/";
+    //window.location.href = "/";
+    navigate("/login");
+    dispatch(logout());
     AuthToken.clearTokens();
   };
 

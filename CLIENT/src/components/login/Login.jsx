@@ -16,6 +16,7 @@ import { BASE_URL } from "../../routes/BaseUrl";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import AuthToken from "../../auth/AuthToken";
+import { useSelector } from "react-redux";
 
 /****************************************************************
  * STATUS               : Pending(no multi userlogin yet)
@@ -31,6 +32,8 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const [loginError, setLoginError] = useState("");
+  const user = useSelector((state) => state.user.value);
+  console.log(user);
 
   const onSubmitLogin = async (data) => {
     try {
