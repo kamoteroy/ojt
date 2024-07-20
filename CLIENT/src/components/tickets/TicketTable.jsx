@@ -50,6 +50,7 @@ import TicketReview from "./TicketReview";
 import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { useSelector } from "react-redux";
+import Breadcrumbs from "../../routes/breadcrumb";
 
 const statusColorMap = {
   solved: "success",
@@ -560,151 +561,154 @@ const TicketTable = () => {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-center">
-          <Input
-            isClearable
-            className="w-full"
-            placeholder="Search by Caller"
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-            size="sm"
-          />
-          {/* Date filter */}
-          <div className="flex gap-3">
+      <>
+        <Breadcrumbs />
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between gap-3 items-center">
             <Input
-              type="date"
-              label="From"
-              placeholder="From"
-              value={fromDate}
-              onChange={(e) => {
-                setFromDate(e.target.value);
-              }}
+              isClearable
+              className="w-full"
+              placeholder="Search by Caller"
+              startContent={<SearchIcon />}
+              value={filterValue}
+              onClear={() => onClear()}
+              onValueChange={onSearchChange}
+              size="sm"
             />
-            <Input
-              type="date"
-              label="To"
-              placeholder="To"
-              value={toDate}
-              onChange={(e) => {
-                setToDate(e.target.value);
-              }}
-            />
-          </div>
+            {/* Date filter */}
+            <div className="flex gap-3">
+              <Input
+                type="date"
+                label="From"
+                placeholder="From"
+                value={fromDate}
+                onChange={(e) => {
+                  setFromDate(e.target.value);
+                }}
+              />
+              <Input
+                type="date"
+                label="To"
+                placeholder="To"
+                value={toDate}
+                onChange={(e) => {
+                  setToDate(e.target.value);
+                }}
+              />
+            </div>
 
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {status.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
-                >
-                  Category
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={categoryFilter}
-                selectionMode="multiple"
-                onSelectionChange={setCategoryFilter}
-              >
-                {ticketCategory.map((category) => (
-                  <DropdownItem key={category.value} className="capitalize">
-                    {category.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem
-                    key={column.uid}
-                    textValue={column.uid}
-                    className="capitalize"
+            <div className="flex gap-3">
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
                   >
-                    {column.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              color="primary"
-              endContent={<PlusIcon />}
-              size="lg"
-              onClick={() => navigate("/tickets/addtickets")}
-              isDisabled={!canAdd}
-            >
-              Add New
-            </Button>
+                    Status
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={statusFilter}
+                  selectionMode="multiple"
+                  onSelectionChange={setStatusFilter}
+                >
+                  {statusOptions.map((status) => (
+                    <DropdownItem key={status.uid} className="capitalize">
+                      {status.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
+                  >
+                    Category
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={categoryFilter}
+                  selectionMode="multiple"
+                  onSelectionChange={setCategoryFilter}
+                >
+                  {ticketCategory.map((category) => (
+                    <DropdownItem key={category.value} className="capitalize">
+                      {category.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
+                  >
+                    Columns
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={visibleColumns}
+                  selectionMode="multiple"
+                  onSelectionChange={setVisibleColumns}
+                >
+                  {columns.map((column) => (
+                    <DropdownItem
+                      key={column.uid}
+                      textValue={column.uid}
+                      className="capitalize"
+                    >
+                      {column.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Button
+                color="primary"
+                endContent={<PlusIcon />}
+                size="lg"
+                onClick={() => navigate("/tickets/addtickets")}
+                isDisabled={!canAdd}
+              >
+                Add New
+              </Button>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-default-400 text-small">
+              Total {filteredItems.length} tickets
+            </span>
+            <label className="flex items-center text-default-400 text-small">
+              Rows per page:
+              <select
+                className="bg-transparent outline-none text-default-400 text-small"
+                onChange={onRowsPerPageChange}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </label>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {filteredItems.length} tickets
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
-        </div>
-      </div>
+      </>
     );
   }, [
     filterValue,
@@ -799,7 +803,11 @@ const TicketTable = () => {
                 canView ? "cursor-pointer" : "cursor-not-allowed"
               }`}
               onClick={
-                () => canView && navigate(`/tickets/editticket/${item.Id[0]}`)
+                () =>
+                  canView &&
+                  navigate(`/tickets/editticket/${item.Id[0]}`, {
+                    state: item.TicketNumber,
+                  })
                 /* canView && navigate(`/tickets/ticketdetails/${item.Id[0]}`) */
               }
             >

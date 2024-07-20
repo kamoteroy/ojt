@@ -154,7 +154,7 @@ const RoleDetails = () => {
             size="sm"
             variant="flat"
             color="secondary"
-            className={`text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
+            className={`-mt-4 text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
             onClick={handleEditToggle}
             isDisabled={!canEdit}
           >

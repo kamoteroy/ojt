@@ -21,22 +21,22 @@ import AuthToken from "../../auth/AuthToken.jsx";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const permissions = GetPermission() || [];
+  const permissions = GetPermission() || [user.permissions];
 
   const dispatchData = async () => {
     dispatch(
       userLogged({
-        permissions: permissions,
         accessToken: await AuthToken.getAccessToken(),
         refreshToken: await AuthToken.getRefreshToken(),
         user: await AuthToken.getCurrentUser(),
+        permissions: permissions,
       })
     );
   };
 
   useEffect(() => {
     dispatchData();
-    console.log(user);
+    //console.log(user);
   }, [permissions]);
 
   return (

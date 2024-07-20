@@ -16,7 +16,6 @@ const Breadcrumbs = (props) => {
       {pathnames.map((name, index) => {
         breadcrumbPath += `${name}`;
         const isLast = index === pathnames.length - 2;
-
         return isLast ? (
           <span>
             {" "}
@@ -25,7 +24,7 @@ const Breadcrumbs = (props) => {
         ) : (
           <span key={breadcrumbPath}>
             {" "}
-            <Link to={-1}>{capitalizeFirstLetter(name)}</Link>
+            <Link to={"/" + breadcrumbPath}>{capitalizeFirstLetter(name)}</Link>
           </span>
         );
       })}

@@ -32,10 +32,10 @@ import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import axiosInstance from "../shared/axiosInstance";
-import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { IconCircle } from "../../icons/IconCircle";
 import { useSelector } from "react-redux";
+import Breadcrumbs from "../../routes/breadcrumb";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
@@ -197,8 +197,10 @@ const ClientTable = () => {
     }
   };
 
-  const handleRowClick = async (clientId) => {
-    navigate(`/clients/editclient/${clientId}`);
+  const handleRowClick = async (clientId, name) => {
+    navigate(`/clients/editclient/${clientId}`, {
+      state: { clientName: name },
+    });
   };
 
   const hasSearchFilter = Boolean(filterValue);
@@ -371,95 +373,98 @@ const ClientTable = () => {
   const topContent = React.useMemo(() => {
     const totalFilteredClients = filteredItems.length;
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-center">
-          <Input
-            isClearable
-            className="w-full"
-            placeholder="Search by Username / Code"
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-            size="sm"
-          />
-          {/* Date filter */}
-          <div className="flex gap-3">
+      <>
+        <Breadcrumbs />
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between gap-3 items-center">
             <Input
-              type="date"
-              label="From"
-              placeholder="From"
-              value={fromDate}
-              onChange={(e) => {
-                setFromDate(e.target.value);
-              }}
+              isClearable
+              className="w-full"
+              placeholder="Search by Username / Code"
+              startContent={<SearchIcon />}
+              value={filterValue}
+              onClear={() => onClear()}
+              onValueChange={onSearchChange}
+              size="sm"
             />
-            <Input
-              type="date"
-              label="To"
-              placeholder="To"
-              value={toDate}
-              onChange={(e) => {
-                setToDate(e.target.value);
-              }}
-            />
-          </div>
+            {/* Date filter */}
+            <div className="flex gap-3">
+              <Input
+                type="date"
+                label="From"
+                placeholder="From"
+                value={fromDate}
+                onChange={(e) => {
+                  setFromDate(e.target.value);
+                }}
+              />
+              <Input
+                type="date"
+                label="To"
+                placeholder="To"
+                value={toDate}
+                onChange={(e) => {
+                  setToDate(e.target.value);
+                }}
+              />
+            </div>
 
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                  color="primary"
-                  size="lg"
+            <div className="flex gap-3">
+              <Dropdown>
+                <DropdownTrigger className="hidden sm:flex">
+                  <Button
+                    endContent={<ChevronDownIcon className="text-small" />}
+                    variant="flat"
+                    color="primary"
+                    size="lg"
+                  >
+                    Columns
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  aria-label="Table Columns"
+                  closeOnSelect={false}
+                  selectedKeys={visibleColumns}
+                  selectionMode="multiple"
+                  onSelectionChange={setVisibleColumns}
                 >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
+                  {columns.map((column) => (
+                    <DropdownItem key={column.uid} className="capitalize">
+                      {column.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+              <Button
+                color="primary"
+                endContent={<PlusIcon />}
+                size="lg"
+                onClick={() => navigate("/clients/addclient")}
+                isDisabled={!canAdd}
               >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {column.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              color="primary"
-              endContent={<PlusIcon />}
-              size="lg"
-              onClick={() => navigate("/clients/addclient")}
-              isDisabled={!canAdd}
-            >
-              Add New
-            </Button>
+                Add New
+              </Button>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-default-400 text-small">
+              Total {totalFilteredClients} users
+            </span>
+            <label className="flex items-center text-default-400 text-small">
+              Rows per page:
+              <select
+                className="bg-transparent outline-none text-default-400 text-small"
+                onChange={onRowsPerPageChange}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </label>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {totalFilteredClients} users
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
-        </div>
-      </div>
+      </>
     );
   }, [
     filterValue,
@@ -545,7 +550,7 @@ const ClientTable = () => {
         <TableBody emptyContent={"No clients found"} items={sortedItems}>
           {(item) => (
             <TableRow
-              onClick={() => handleRowClick(item.Id)}
+              onClick={() => handleRowClick(item.Id, item.Name)}
               key={item.Id}
               className={`hover:bg-gray-200 ${
                 canView ? "cursor-pointer" : "cursor-not-allowed"

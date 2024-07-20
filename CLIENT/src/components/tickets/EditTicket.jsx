@@ -18,7 +18,7 @@ import {
   SelectTicketSeverity,
   SelectTicketCategory,
 } from "../../data/SelectData";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ModalApp from "../shared/Modal";
 import axiosInstance from "../shared/axiosInstance";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
@@ -31,6 +31,7 @@ import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import GetPermission from "../shared/GetPermission.jsx";
 import { EditIcon } from "../../icons/EditIcon";
+import Breadcrumbs from "../../routes/breadcrumb.jsx";
 
 const EditTicket = () => {
   const { showMessage } = ToasterUtils();
@@ -68,6 +69,7 @@ const EditTicket = () => {
   const canEdit = permissions.includes("EditTicket");
   const [isEditable, setIsEditable] = useState(false);
   const [text, setText] = useState("USER DETAILS");
+  const location = useLocation();
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
@@ -233,188 +235,190 @@ const EditTicket = () => {
   };
 
   return (
-    <div className="bg-white min-h-fit py-10 px-8">
-      <div className="flex flex-row text-2xl font-bold uppercase">
-        Edit Ticket
-        <Button
-          size="sm"
-          variant="flat"
-          color="secondary"
-          className={`text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
-          onClick={handleEditToggle}
-        >
-          <EditIcon />
-        </Button>
-      </div>
+    <>
+      <Breadcrumbs name={location.state} />
+      <div className="bg-white min-h-fit py-10 px-8">
+        <div className="flex flex-row text-2xl font-bold uppercase">
+          Edit Ticket
+          <Button
+            size="sm"
+            variant="flat"
+            color="secondary"
+            className={`-mt-4 text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
+            onClick={handleEditToggle}
+          >
+            <EditIcon />
+          </Button>
+        </div>
 
-      <Divider />
+        <Divider />
 
-      <div className="flex-row py-3 uppercase font-bold pb-14">
-        Ticket Number: {tickets.TicketNumber || ""}
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col md:flex-row gap-3">
-          <div className="w-full md:w-1/2 grid grid-row-1 pb-3 md:grid-row-3 gap-2">
-            <Select
-              label="Assigned To"
-              name="AssignedBy"
-              placeholder={tickets.UserAssignedBy || ""}
-              {...register("AssignedBy")}
-              isInvalid={isInputInvalid("AssignedBy")}
-              errorMessage={errors.AssignedBy && errors.AssignedBy.message}
-            >
-              {users.map((user) => (
-                <SelectItem
-                  key={user.Id}
-                  value={user.Id}
-                  isDisabled={!isEditable}
-                >
-                  {`${user.Firstname} ${user.Lastname}`}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select
-              label="Client"
-              name="ClientId"
-              placeholder={tickets.ClientName || ""}
-              {...register("ClientId")}
-              isInvalid={isInputInvalid("ClientId")}
-              errorMessage={errors.ClientId && errors.ClientId.message}
-            >
-              {clients.map((client) => (
-                <SelectItem
-                  key={client.Id}
-                  value={client.Id}
-                  isDisabled={!isEditable}
-                >
-                  {client.Name}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select
-              label="Product"
-              placeholder={tickets.ProductName || ""}
-              {...register("ProductId")}
-              isInvalid={isInputInvalid("ProductId")}
-              errorMessage={errors.ProductId && errors.ProductId.message}
-            >
-              {products.map((product) => (
-                <SelectItem
-                  key={product.Id}
-                  value={product.Id}
-                  isDisabled={!isEditable}
-                >
-                  {product.Name}
-                </SelectItem>
-              ))}
-            </Select>
-            <Input
-              type="text"
-              disabled={!isEditable}
-              label="Caller"
-              placeholder={tickets.Caller || ""}
-              {...register("Caller", {
-                maxLength: 50,
-                validate: {
-                  onlyLetters: (value) =>
-                    isOnlyLetters(value) ||
-                    "Caller should contain only letters",
-                },
-              })}
-              isInvalid={isInputInvalid("Caller")}
-              errorMessage={errors.Caller && errors.Caller.message}
-              autoComplete="off"
-            />
-            <Textarea
-              maxRows={3}
-              type="text"
-              disabled={!isEditable}
-              label="Concern"
-              placeholder={tickets.Concern || ""}
-              {...register("Concern", {
-                maxLength: 50,
-                validate: {
-                  onlyLetters: (value) =>
-                    isOnlyLetters(value) ||
-                    "Concern should contain only letters",
-                },
-              })}
-              isInvalid={isInputInvalid("Concern")}
-              errorMessage={errors.Concern && errors.Concern.message}
-              autoComplete="off"
-            />
-          </div>
+        <div className="flex-row py-3 uppercase font-bold pb-14">
+          Ticket Number: {tickets.TicketNumber || ""}
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col md:flex-row gap-3">
+            <div className="w-full md:w-1/2 grid grid-row-1 pb-3 md:grid-row-3 gap-2">
+              <Select
+                label="Assigned To"
+                name="AssignedBy"
+                placeholder={tickets.UserAssignedBy || ""}
+                {...register("AssignedBy")}
+                isInvalid={isInputInvalid("AssignedBy")}
+                errorMessage={errors.AssignedBy && errors.AssignedBy.message}
+              >
+                {users.map((user) => (
+                  <SelectItem
+                    key={user.Id}
+                    value={user.Id}
+                    isDisabled={!isEditable}
+                  >
+                    {`${user.Firstname} ${user.Lastname}`}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Select
+                label="Client"
+                name="ClientId"
+                placeholder={tickets.ClientName || ""}
+                {...register("ClientId")}
+                isInvalid={isInputInvalid("ClientId")}
+                errorMessage={errors.ClientId && errors.ClientId.message}
+              >
+                {clients.map((client) => (
+                  <SelectItem
+                    key={client.Id}
+                    value={client.Id}
+                    isDisabled={!isEditable}
+                  >
+                    {client.Name}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Select
+                label="Product"
+                placeholder={tickets.ProductName || ""}
+                {...register("ProductId")}
+                isInvalid={isInputInvalid("ProductId")}
+                errorMessage={errors.ProductId && errors.ProductId.message}
+              >
+                {products.map((product) => (
+                  <SelectItem
+                    key={product.Id}
+                    value={product.Id}
+                    isDisabled={!isEditable}
+                  >
+                    {product.Name}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Input
+                type="text"
+                disabled={!isEditable}
+                label="Caller"
+                placeholder={tickets.Caller || ""}
+                {...register("Caller", {
+                  maxLength: 50,
+                  validate: {
+                    onlyLetters: (value) =>
+                      isOnlyLetters(value) ||
+                      "Caller should contain only letters",
+                  },
+                })}
+                isInvalid={isInputInvalid("Caller")}
+                errorMessage={errors.Caller && errors.Caller.message}
+                autoComplete="off"
+              />
+              <Textarea
+                maxRows={3}
+                type="text"
+                disabled={!isEditable}
+                label="Concern"
+                placeholder={tickets.Concern || ""}
+                {...register("Concern", {
+                  maxLength: 50,
+                  validate: {
+                    onlyLetters: (value) =>
+                      isOnlyLetters(value) ||
+                      "Concern should contain only letters",
+                  },
+                })}
+                isInvalid={isInputInvalid("Concern")}
+                errorMessage={errors.Concern && errors.Concern.message}
+                autoComplete="off"
+              />
+            </div>
 
-          <div className="w-full md:w-1/2 grid grid-row-1 pb-3 md:grid-row-3 gap-2">
-            <Select
-              label="Answered By"
-              placeholder={tickets.UserAnsweredBy || ""}
-              {...register("AnsweredBy")}
-              isInvalid={isInputInvalid("AssignedBy")}
-              errorMessage={errors.AnsweredBy && errors.AnsweredBy.message}
-            >
-              {users.map((user) => (
-                <SelectItem
-                  key={user.Id}
-                  value={user.Id}
-                  isDisabled={!isEditable}
-                >
-                  {`${user.Firstname} ${user.Lastname}`}
-                </SelectItem>
-              ))}
-            </Select>
-            <Textarea
-              maxRows={3}
-              type="text"
-              disabled={!isEditable}
-              label="Remarks"
-              placeholder={tickets.Remarks == "null" ? "" : tickets.Remarks}
-              {...register("Remarks", {
-                validate: {
-                  onlyLetters: (value) =>
-                    isOnlyLetters(value) ||
-                    "Remarks should contain only letters",
-                },
-              })}
-              isInvalid={isInputInvalid("Remarks")}
-              errorMessage={errors.Remarks && errors.Remarks.message}
-              autoComplete="off"
-            />
-            <Select
-              label="Category"
-              placeholder={tickets.Category || ""}
-              {...register("Category")}
-              isInvalid={isInputInvalid("Category")}
-              errorMessage={errors.Category && errors.Category.message}
-            >
-              {SelectTicketCategory.map((category) => (
-                <SelectItem
-                  key={category.value}
-                  value={category.value}
-                  isDisabled={!isEditable}
-                >
-                  {category.label}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select
-              label="Severity"
-              placeholder={tickets.Severity || ""}
-              {...register("Severity")}
-              isInvalid={isInputInvalid("Severity")}
-              errorMessage={errors.Severity && errors.Severity.message}
-            >
-              {SelectTicketSeverity.map((severity) => (
-                <SelectItem
-                  key={severity.value}
-                  value={severity.value}
-                  isDisabled={!isEditable}
-                >
-                  {severity.label}
-                </SelectItem>
-              ))}
-            </Select>
-            {/*  <Textarea
+            <div className="w-full md:w-1/2 grid grid-row-1 pb-3 md:grid-row-3 gap-2">
+              <Select
+                label="Answered By"
+                placeholder={tickets.UserAnsweredBy || ""}
+                {...register("AnsweredBy")}
+                isInvalid={isInputInvalid("AssignedBy")}
+                errorMessage={errors.AnsweredBy && errors.AnsweredBy.message}
+              >
+                {users.map((user) => (
+                  <SelectItem
+                    key={user.Id}
+                    value={user.Id}
+                    isDisabled={!isEditable}
+                  >
+                    {`${user.Firstname} ${user.Lastname}`}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Textarea
+                maxRows={3}
+                type="text"
+                disabled={!isEditable}
+                label="Remarks"
+                placeholder={tickets.Remarks == "null" ? "" : tickets.Remarks}
+                {...register("Remarks", {
+                  validate: {
+                    onlyLetters: (value) =>
+                      isOnlyLetters(value) ||
+                      "Remarks should contain only letters",
+                  },
+                })}
+                isInvalid={isInputInvalid("Remarks")}
+                errorMessage={errors.Remarks && errors.Remarks.message}
+                autoComplete="off"
+              />
+              <Select
+                label="Category"
+                placeholder={tickets.Category || ""}
+                {...register("Category")}
+                isInvalid={isInputInvalid("Category")}
+                errorMessage={errors.Category && errors.Category.message}
+              >
+                {SelectTicketCategory.map((category) => (
+                  <SelectItem
+                    key={category.value}
+                    value={category.value}
+                    isDisabled={!isEditable}
+                  >
+                    {category.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Select
+                label="Severity"
+                placeholder={tickets.Severity || ""}
+                {...register("Severity")}
+                isInvalid={isInputInvalid("Severity")}
+                errorMessage={errors.Severity && errors.Severity.message}
+              >
+                {SelectTicketSeverity.map((severity) => (
+                  <SelectItem
+                    key={severity.value}
+                    value={severity.value}
+                    isDisabled={!isEditable}
+                  >
+                    {severity.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              {/*  <Textarea
               maxRows={3}
               type="text"
               label="Solution"
@@ -423,50 +427,51 @@ const EditTicket = () => {
               isInvalid={isInputInvalid("Solution")}
               errorMessage={errors.Solution && errors.Solution.message}
             /> */}
-            <Select
-              label="Status"
-              placeholder={tickets.Status == 0 ? "Ongoing" : "Solved"}
-              {...register("Status")}
-            >
-              {statusOptions.map((status) => (
-                <SelectItem
-                  key={parseInt(status.value)}
-                  value={parseInt(status.value)}
-                  isDisabled={!isEditable}
-                >
-                  {status.name}
-                </SelectItem>
-              ))}
-            </Select>
+              <Select
+                label="Status"
+                placeholder={tickets.Status == 0 ? "Ongoing" : "Solved"}
+                {...register("Status")}
+              >
+                {statusOptions.map((status) => (
+                  <SelectItem
+                    key={parseInt(status.value)}
+                    value={parseInt(status.value)}
+                    isDisabled={!isEditable}
+                  >
+                    {status.name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
           </div>
-        </div>
 
-        <div className="pt-10 justify-end flex gap-4">
-          <Button color="primary" variant="ghost" onClick={handleGoBack}>
-            Back
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => setIsModalOpen(true)}
-            isDisabled={!canEdit || !isEditable}
-          >
-            Save Changes
-          </Button>
+          <div className="pt-10 justify-end flex gap-4">
+            <Button color="primary" variant="ghost" onClick={handleGoBack}>
+              Back
+            </Button>
+            <Button
+              color="primary"
+              onClick={() => setIsModalOpen(true)}
+              isDisabled={!canEdit || !isEditable}
+            >
+              Save Changes
+            </Button>
 
-          <ModalApp
-            isOpen={isModalOpen}
-            onOpenChange={setIsModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            title="Edit Ticket"
-            content="Proceed to Save Changes?"
-            actionButtonLabel="Confirm"
-            actionButtonOnClick={handleSubmit(onSubmit)}
-          />
-        </div>
-      </form>
-      <AttachmentTable ticketId={ticketid} />
-      <TicketLineTable ticketId={ticketid} />
-    </div>
+            <ModalApp
+              isOpen={isModalOpen}
+              onOpenChange={setIsModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title="Edit Ticket"
+              content="Proceed to Save Changes?"
+              actionButtonLabel="Confirm"
+              actionButtonOnClick={handleSubmit(onSubmit)}
+            />
+          </div>
+        </form>
+        <AttachmentTable ticketId={ticketid} />
+        <TicketLineTable ticketId={ticketid} />
+      </div>
+    </>
   );
 };
 
