@@ -86,7 +86,7 @@ const ProductTable = () => {
   const canAdd = permissions.includes("AddProduct");
   const canDelete = permissions.includes("DeleteProduct");
   const canView = permissions.includes("ViewProduct");
-  const canEdit = permissions.includes("EditProducts");
+  const canEdit = permissions.includes("EditProduct");
   const isInitialRender = useRef(true);
   const fetchAllData = async () => {
     try {

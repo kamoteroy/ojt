@@ -41,9 +41,13 @@ const EditClient = () => {
   const permissions = user.permissions;
   const canEdit = permissions.includes("EditRole");
   const [isEditable, setIsEditable] = useState(false);
+  const [text, setText] = useState("CLIENT DETAILS");
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
+    text === "CLIENT DETAILS"
+      ? setText("EDIT CLIENT DETAILS")
+      : setText("CLIENT DETAILS");
   };
 
   useEffect(() => {
@@ -145,7 +149,7 @@ const EditClient = () => {
       <Breadcrumbs name={location.state.clientName} />
       <div className="bg-white min-h-fit py-10 px-8">
         <div className="flex flex-row text-2xl font-bold uppercase">
-          Edit Client
+          {text}
           <Button
             isIconOnly
             size="sm"

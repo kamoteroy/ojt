@@ -68,14 +68,14 @@ const EditTicket = () => {
   console.log("permissions: ", permissions);
   const canEdit = permissions.includes("EditTicket");
   const [isEditable, setIsEditable] = useState(false);
-  const [text, setText] = useState("USER DETAILS");
+  const [text, setText] = useState("TICKET DETAILS");
   const location = useLocation();
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
-    text === "USER DETAILS"
-      ? setText("EDIT USER DETAILS")
-      : setText("USER DETAILS");
+    text === "TICKET DETAILS"
+      ? setText("EDIT TICKET DETAILS")
+      : setText("TICKET DETAILS");
   };
 
   const onSubmit = async (data) => {
@@ -239,7 +239,7 @@ const EditTicket = () => {
       <Breadcrumbs name={location.state} />
       <div className="bg-white min-h-fit py-10 px-8">
         <div className="flex flex-row text-2xl font-bold uppercase">
-          Edit Ticket
+          {text}
           <Button
             size="sm"
             variant="flat"
