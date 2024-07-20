@@ -39,13 +39,7 @@ import { useCurrentUser } from "../../auth/CurrentUserContext";
 import ToasterUtils from "../shared/ToasterUtils";
 import { useSelector } from "react-redux";
 
-const INITIAL_VISIBLE_COLUMNS = [
-  "Code",
-  "Name",
-  "CreatedByUsername",
-  "UpdatedByUsername",
-  "Description",
-];
+const INITIAL_VISIBLE_COLUMNS = ["Code", "Name", "Description"];
 
 const AccessRightTable = () => {
   const [filterValue, setFilterValue] = useState("");
@@ -324,15 +318,6 @@ const AccessRightTable = () => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              color="primary"
-              endContent={<PlusIcon />}
-              size="lg"
-              onPress={() => setAddModalOpen(true)}
-              isDisabled={!canAdd}
-            >
-              Add New
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -433,12 +418,7 @@ const AccessRightTable = () => {
         </TableHeader>
         <TableBody emptyContent={"No accessRights found"} items={sortedItems}>
           {(item) => (
-            <TableRow
-              key={item.Id}
-              className={`hover:bg-gray-200 ${
-                canView ? "cursor-pointer" : "cursor-not-allowed"
-              }`}
-            >
+            <TableRow key={item.Id} className={`hover:bg-gray-200`}>
               {headerColumns.map((column) => (
                 <TableCell key={`${item.Id}-${column.uid}`}>
                   {renderCell(item, column.uid)}

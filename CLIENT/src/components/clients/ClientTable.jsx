@@ -321,6 +321,7 @@ const ClientTable = () => {
                   isIconOnly
                   variant="flat"
                   color="warning"
+                  isDisabled={!canDelete}
                   className="text-lg text-danger cursor-pointer active:opacity-50"
                   onClick={(event) => {
                     event.preventDefault();
@@ -550,11 +551,11 @@ const ClientTable = () => {
         <TableBody emptyContent={"No clients found"} items={sortedItems}>
           {(item) => (
             <TableRow
-              onClick={() => handleRowClick(item.Id, item.Name)}
               key={item.Id}
               className={`hover:bg-gray-200 ${
                 canView ? "cursor-pointer" : "cursor-not-allowed"
               }`}
+              onClick={() => canView && handleRowClick(item.Id, item.Name)}
             >
               {headerColumns.map((column) => {
                 const color = calculateColor(

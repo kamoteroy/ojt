@@ -190,6 +190,7 @@ const UserTable = () => {
                 variant="flat"
                 color="warning"
                 className="text-lg text-danger cursor-pointer active:opacity-50"
+                isDisabled={!canDeleteUser}
                 onClick={(e) => {
                   handleDeleteUser(user.Id);
                   e.stopPropagation();
@@ -422,9 +423,7 @@ const UserTable = () => {
               className={`hover:bg-gray-200 ${
                 canViewUser ? "cursor-pointer" : "cursor-not-allowed"
               }`}
-              onClick={() =>
-                canViewUser && navigate(`/users/editusers/${item.Id}`)
-              }
+              onClick={() => navigate(`/users/editusers/${item.Id}`)}
             >
               {headerColumns.map((column) => (
                 <TableCell key={`${item.Id}-${column.uid}`}>

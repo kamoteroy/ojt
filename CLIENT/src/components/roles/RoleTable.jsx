@@ -83,6 +83,7 @@ const RoleTable = () => {
   const canAdd = permissions.includes("AddRole");
   const canDelete = permissions.includes("DeleteRole");
   const canView = permissions.includes("ViewRole");
+  const canEdit = permissions.includes("EditRole");
 
   useEffect(() => {
     if (isInitialRender.current) {
@@ -240,6 +241,7 @@ const RoleTable = () => {
                 variant="flat"
                 color="secondary"
                 className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
+                isDisabled={!canEdit}
                 onClick={() => {
                   handleEditData(data.Id);
                 }}
@@ -254,6 +256,7 @@ const RoleTable = () => {
                 variant="flat"
                 color="warning"
                 className="text-lg text-danger cursor-pointer active:opacity-50"
+                isDisabled={!canDelete}
                 onClick={() => handleDeleteData(data.Id)}
               >
                 <DeleteIcon />

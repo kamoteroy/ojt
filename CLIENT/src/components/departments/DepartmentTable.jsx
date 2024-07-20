@@ -87,7 +87,7 @@ const DepartmentTable = () => {
   const permissions = user.permissions;
   const canAdd = permissions.includes("AddDepartment");
   const canDelete = permissions.includes("DeleteDepartment");
-  const canView = permissions.includes("ViewDepartment");
+  const canEdit = permissions.includes("EditDepartment");
 
   useEffect(() => {
     if (isInitialRender.current) {
@@ -350,6 +350,7 @@ const DepartmentTable = () => {
                 size="sm"
                 variant="flat"
                 color="secondary"
+                isDisabled={!canEdit}
                 className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
                 onClick={() => {
                   handleEditDepartment(department.Id);
@@ -364,6 +365,7 @@ const DepartmentTable = () => {
                 isIconOnly
                 variant="flat"
                 color="warning"
+                isDisabled={!canDelete}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
                 onClick={() => handleDeleteDepartment(department.Id)}
               >

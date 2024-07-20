@@ -484,6 +484,7 @@ const TicketTable = () => {
                   size="sm"
                   variant="flat"
                   color="warning"
+                  isDisabled={!canDelete}
                   className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
                   onClick={() => handleDeleteTicket(tickets.Id[0])}
                 >

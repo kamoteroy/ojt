@@ -40,6 +40,7 @@ import { useSelector } from "react-redux";
 const INITIAL_VISIBLE_COLUMNS = [
   "Code",
   "Name",
+  "Description",
   "Category",
   "Price",
   "actions",
@@ -85,6 +86,7 @@ const ProductTable = () => {
   const canAdd = permissions.includes("AddProduct");
   const canDelete = permissions.includes("DeleteProduct");
   const canView = permissions.includes("ViewProduct");
+  const canEdit = permissions.includes("EditProducts");
   const isInitialRender = useRef(true);
   const fetchAllData = async () => {
     try {
@@ -273,6 +275,7 @@ const ProductTable = () => {
                 size="sm"
                 variant="flat"
                 color="secondary"
+                isDisabled={!canEdit}
                 className={`text-lg text-default-400 cursor-pointer active:opacity-50`}
                 onClick={() => {
                   handleEditData(product.Id);
@@ -287,6 +290,7 @@ const ProductTable = () => {
                 isIconOnly
                 variant="flat"
                 color="warning"
+                isDisabled={!canDelete}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
                 onClick={() => handleDeleteData(product.Id)}
               >

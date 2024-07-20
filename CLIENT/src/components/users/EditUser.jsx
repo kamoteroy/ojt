@@ -58,6 +58,7 @@ const EditUser = () => {
   //permissions
   const permissions = user.permissions;
   const canEditUser = permissions.includes("EditUser");
+  const canViewUser = permissions.includes("ViewUser");
   const [isEditable, setIsEditable] = useState(false);
   const [text, setText] = useState("USER DETAILS");
 
@@ -387,6 +388,7 @@ const EditUser = () => {
                       <button
                         className="focus:outline-none"
                         type="button"
+                        disabled={!canEditUser}
                         onClick={toggleVisibility}
                       >
                         {isVisible ? (

@@ -59,6 +59,7 @@ const RoleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditable, setIsEditable] = useState(false);
 
   //permissions
   const permissions = GetPermission() || [];
@@ -66,7 +67,6 @@ const RoleDetails = () => {
   const canEdit = permissions.includes("EditRole");
   const canAdd = permissions.includes("AddPermission");
   const canDelete = permissions.includes("DeletePermission");
-  const [isEditable, setIsEditable] = useState(false);
 
   const handleEditToggle = () => {
     setIsEditable(!isEditable);
@@ -237,6 +237,7 @@ const RoleDetails = () => {
                         <Link
                           className="text-lg text-danger cursor-pointer active:opacity-50"
                           onClick={() => handleDeleteData(access.PermissionId)}
+                          isDisabled={!canDelete}
                         >
                           <DeleteIcon />
                         </Link>

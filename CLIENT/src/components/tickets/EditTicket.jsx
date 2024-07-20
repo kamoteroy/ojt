@@ -244,7 +244,9 @@ const EditTicket = () => {
             size="sm"
             variant="flat"
             color="secondary"
-            className={`-mt-4 text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto`}
+            className={`-mt-4 text-lg text-default-400 cursor-pointer active:opacity-50 ml-auto ${
+              canEdit ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
             onClick={handleEditToggle}
           >
             <EditIcon />
