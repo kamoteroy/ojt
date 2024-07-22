@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 const EditAccessRight = ({ isOpen, onOpenChange, onSuccess, id, details }) => {
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
   const {
     register,
     handleSubmit,

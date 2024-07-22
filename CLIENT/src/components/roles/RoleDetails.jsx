@@ -61,7 +61,7 @@ const RoleDetails = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isEditable, setIsEditable] = useState(false);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

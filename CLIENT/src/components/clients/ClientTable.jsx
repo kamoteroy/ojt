@@ -72,7 +72,7 @@ const ClientTable = () => {
   const [error, setError] = useState(null);
   const [fromDate, setFromDate] = React.useState("");
   const [toDate, setToDate] = React.useState("");
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

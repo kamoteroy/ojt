@@ -18,7 +18,6 @@ import axiosInstance from "../shared/axiosInstance";
 import { useForm } from "react-hook-form";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
-import GetPermission from "../shared/GetPermission.jsx";
 import { useSelector } from "react-redux";
 
 /****************************************************************
@@ -37,7 +36,7 @@ const EditDepartment = ({
 }) => {
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   const {
     register,

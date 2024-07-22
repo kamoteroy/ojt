@@ -32,7 +32,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const [loginError, setLoginError] = useState("");
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
   console.log(user);
 
   const onSubmitLogin = async (data) => {

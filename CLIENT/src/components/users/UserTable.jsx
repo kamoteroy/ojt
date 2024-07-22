@@ -63,7 +63,7 @@ const UserTable = () => {
   const { showMessage } = ToasterUtils();
   const { currentUserId } = useCurrentUser();
   const isInitialRender = useRef(true);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

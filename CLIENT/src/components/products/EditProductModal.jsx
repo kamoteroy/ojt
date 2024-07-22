@@ -16,7 +16,6 @@ import editAuditTrail from "../shared/RecordAudit";
 import axiosInstance from "../shared/axiosInstance";
 import { useForm } from "react-hook-form";
 import ToasterUtils from "../shared/ToasterUtils.jsx";
-import GetPermission from "../shared/GetPermission.jsx";
 import { useSelector } from "react-redux";
 /****************************************************************
  * STATUS               : Finished
@@ -36,7 +35,7 @@ const EditProduct = ({
   const [categories, setCategories] = useState([]);
   const [touched, setTouched] = useState(false);
   const { showMessage } = ToasterUtils();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   const {
     register,

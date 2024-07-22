@@ -35,7 +35,6 @@ import axiosInstance from "../shared/axiosInstance";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
-import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { useSelector } from "react-redux";
 
@@ -81,7 +80,7 @@ const DepartmentTable = () => {
   const isInitialRender = useRef(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

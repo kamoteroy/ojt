@@ -21,7 +21,7 @@ import { useNotification } from "../notification/NotificationContext.jsx";
 import addAuditTrail from "./RecordAudit.jsx";
 import ModalApp from "./Modal.jsx";
 import { useDispatch } from "react-redux";
-import { logout } from "../login/userLogged.jsx";
+import { logout } from "../../routes/userLogged.jsx";
 
 /****************************************************************
  * STATUS               : Done(Tentative)

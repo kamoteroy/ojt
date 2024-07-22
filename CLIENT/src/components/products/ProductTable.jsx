@@ -33,7 +33,6 @@ import ViewProduct from "./ViewProductModal";
 import addAuditTrail from "../shared/RecordAudit";
 import { useCurrentUser } from "../../auth/CurrentUserContext";
 import ToasterUtils from "../shared/ToasterUtils";
-import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { useSelector } from "react-redux";
 
@@ -79,7 +78,7 @@ const ProductTable = () => {
   const { showMessage } = ToasterUtils();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

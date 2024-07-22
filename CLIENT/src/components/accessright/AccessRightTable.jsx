@@ -66,7 +66,7 @@ const AccessRightTable = () => {
   const [error, setError] = useState(null);
   const { currentUserId } = useCurrentUser();
   const { showMessage } = ToasterUtils();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

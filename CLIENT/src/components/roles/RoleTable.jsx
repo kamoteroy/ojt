@@ -76,7 +76,7 @@ const RoleTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const isInitialRender = useRef(true);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

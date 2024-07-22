@@ -47,7 +47,6 @@ import SamplePrint from "./SamplePrint";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
 import TicketReview from "./TicketReview";
-import GetPermission from "../shared/GetPermission";
 import UnAuthorizedPage from "../../pages/403Page";
 import { useSelector } from "react-redux";
 import Breadcrumbs from "../../routes/breadcrumb";
@@ -95,7 +94,7 @@ const TicketTable = () => {
   const isInitialRender = useRef(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
 
   //permissions
   const permissions = user.permissions;

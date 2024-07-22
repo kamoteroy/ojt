@@ -171,6 +171,7 @@ const AddTicket = () => {
       showMessage(`${response.data.message}`, "success");
     } catch (error) {
       console.log("Message", error);
+
       setExist(error.response.data.error);
 
       if (error.response.data.message == "Record Already Exist") {

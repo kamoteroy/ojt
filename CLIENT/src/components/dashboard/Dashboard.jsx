@@ -8,7 +8,7 @@ import MyTicketOverview from "./MyTicketOverview";
 import MyCustomerReport from "./MyCustomerReport";
 import GetPermission from "../shared/GetPermission.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogged } from "../login/userLogged.jsx";
+import { userLogged } from "../../routes/userLogged.jsx";
 import AuthToken from "../../auth/AuthToken.jsx";
 
 /****************************************************************
@@ -20,7 +20,7 @@ import AuthToken from "../../auth/AuthToken.jsx";
  *****************************************************************/
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector((state) => state.value);
   const permissions = GetPermission() || [user.permissions];
 
   const dispatchData = async () => {

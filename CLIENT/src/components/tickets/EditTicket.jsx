@@ -29,9 +29,9 @@ import AttachmentTable from "./AttachmentTable";
 import TicketLineTable from "./TicketLineTable";
 import addAuditTrail from "../shared/RecordAudit";
 import ToasterUtils from "../shared/ToasterUtils";
-import GetPermission from "../shared/GetPermission.jsx";
 import { EditIcon } from "../../icons/EditIcon";
 import Breadcrumbs from "../../routes/breadcrumb.jsx";
+import { useSelector } from "react-redux";
 
 const EditTicket = () => {
   const { showMessage } = ToasterUtils();
@@ -63,9 +63,10 @@ const EditTicket = () => {
     setValue,
     formState: { errors },
   } = useForm();
+  const user = useSelector((state) => state.value);
+
   //permissions
-  const permissions = GetPermission() || [];
-  console.log("permissions: ", permissions);
+  const permissions = user.permissions;
   const canEdit = permissions.includes("EditTicket");
   const [isEditable, setIsEditable] = useState(false);
   const [text, setText] = useState("TICKET DETAILS");
